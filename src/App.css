@@ -1,0 +1,10 @@
+#root {
+  margin: 0 auto;
+  text-align: center;
+
+}
+
+.active {
+  text-decoration: underline;
+  font-weight: bold;
+}
