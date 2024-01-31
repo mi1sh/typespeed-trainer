@@ -50,19 +50,18 @@ const App = () => {
 	const [isInputActive, setIsInputActive] = useState(true);
 
 	const proceesInput = (value) => {
-		if(activeWordIndex === cloud.current.length) {
+		if (activeWordIndex === cloud.current.length) {
 			// стоп
-			return
+			return;
 		}
 
 		if (!startCounting) {
 			setStartCounting(true);
-
 		}
 
 		if (value.endsWith(' ')) {
 
-			if(activeWordIndex === cloud.current.length - 1) {
+			if (activeWordIndex === cloud.current.length - 1) {
 				setStartCounting(false);
 				setUserInput('Completed');
 			} else {
@@ -87,10 +86,10 @@ const App = () => {
 		<>
 			<h1 className="title">typespeed - test</h1>
 			<Timer
-				startCounting = {startCounting}
-				correctWords = {correctWordsArray.filter(Boolean).length}
-				setUserInput = {setUserInput}
-				setIsInputActive = {setIsInputActive}
+				startCounting={startCounting}
+				correctWordsArray={correctWordsArray}
+				setUserInput={setUserInput}
+				setIsInputActive={setIsInputActive}
 			/>
 			<TextAreaWrapper>
 				<Text>

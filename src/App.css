@@ -7,7 +7,7 @@
     display: inline-block;
     margin: 0vw 1vw 0vw 1vw;
     font-family: "BigBlueTerm437 Nerd Font Mono", serif;
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .correct {
@@ -43,6 +43,7 @@
   position: relative;
   display: inline-block;
 }
+
 .title::after {
    content: '';
    position: absolute;

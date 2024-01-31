@@ -7,7 +7,7 @@ const TimerWrapper = styled.div`
 `;
 
 function Timer(props) {
-	const {startCounting, correctWords, setUserInput, setIsInputActive} = props;
+	const {startCounting, correctWordsArray, setUserInput, setIsInputActive} = props;
 	const [timeElapsed, setTimeElapsed] = useState(0);
 
 	useEffect(() => {
@@ -26,12 +26,21 @@ function Timer(props) {
 	}, [startCounting, timeElapsed]);
 	const minutes = timeElapsed / 60;
 
+	const calculateAccuracy = () => {
+		if (correctWordsArray.length === 0) {
+			return '0.00'
+		}
+		const accuracyPercentage = (correctWordsArray.filter(Boolean).length / correctWordsArray.length) * 100;
+		return accuracyPercentage.toFixed(2);
+	};
+
 	return (
 		<TimerWrapper>
 			<p className={'counter'}>(Timer: {timeElapsed}</p>
-			<p className={'counter'}>Speed: {((correctWords / minutes) || 0).toFixed(1)} WPM)</p>
+			<p className={'counter'}>Speed: {((correctWordsArray.filter(Boolean).length / minutes) || 0).toFixed(1)} WPM</p>
+			<p className={'counter'}>Accuracy: {calculateAccuracy()}%)</p>
 		</TimerWrapper>
 	);
-};
+}
 
 export default Timer;
