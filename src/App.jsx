@@ -49,6 +49,8 @@ const App = () => {
 	const [correctWordsArray, setCorrectWordsArray] = useState([]);
 	const [isInputActive, setIsInputActive] = useState(true);
 
+	const inputRef = useRef();
+
 	const proceesInput = (value) => {
 		if (activeWordIndex === cloud.current.length) {
 			// стоп
@@ -82,6 +84,11 @@ const App = () => {
 		}
 	};
 
+	const handleChangeMode = () => {
+		const inputType = inputRef.current.type;
+		inputRef.current.type = inputType === 'text' ? 'password' : 'text';
+	};
+
 	return (
 		<>
 			<h1 className="title">typespeed - test</h1>
@@ -105,10 +112,15 @@ const App = () => {
 			</TextAreaWrapper>
 			<TypeArea
 				type="text"
+				ref={inputRef}
 				disabled={!isInputActive}
 				value={userInput}
 				onChange={(e) => proceesInput(e.target.value)}
 			/>
+			<label style={{display: 'flex', justifyContent: 'center', fontSize: '80%', margin: '8px'}}>
+				<input id='checkbox' onChange={handleChangeMode} type="checkbox"/>
+				Blind mode
+			</label>
 		</>
 	);
 };

@@ -3,6 +3,14 @@
   text-align: center;
 }
 
+input[type=checkbox] {
+    transform: scale(0.8);
+}
+
+input[type=checkbox] {
+    accent-color: #377c6d;
+}
+
 .counter {
     display: inline-block;
     margin: 0vw 1vw 0vw 1vw;
