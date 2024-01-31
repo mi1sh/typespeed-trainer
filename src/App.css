@@ -1,10 +1,57 @@
 #root {
   margin: 0 auto;
   text-align: center;
+}
 
+.counter {
+    display: inline-block;
+    margin: 0vw 1vw 0vw 1vw;
+    font-family: "BigBlueTerm437 Nerd Font Mono", serif;
+    font-size: 18px;
+}
+
+.correct {
+    font-weight: bold;
+    color: #149414;
+}
+
+.incorrect {
+    font-weight: bold;
+    color: brown;
+    text-decoration: line-through;
 }
 
 .active {
-  text-decoration: underline;
   font-weight: bold;
+    position: relative;
+}
+.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    z-index: -1;
+    bottom: -1px; /* Вы можете регулировать расстояние подчеркивания от текста */
+    width: 90%;
+    height: 2px; /* Высота подчеркивания */
+    background-color: #377c6d; /* Цвет подчеркивания, замените на желаемый цвет */
+    display: block;
+
+}
+
+.title {
+  font-family: "BigBlueTerm437 Nerd Font Mono", serif;
+  position: relative;
+  display: inline-block;
+}
+.title::after {
+   content: '';
+   position: absolute;
+   left: 0;
+    z-index: -1;
+   bottom: 5px; /* Вы можете регулировать расстояние подчеркивания от текста */
+   width:
+       100%;
+   height: 3px; /* Высота подчеркивания */
+   background-color: #235347; /* Цвет подчеркивания, замените на желаемый цвет */
+   display: block;
 }
