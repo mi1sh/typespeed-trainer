@@ -1,9 +1,12 @@
 import './App.css';
-import {useEffect, useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 
 import styled from 'styled-components';
 import Word from './components/Word.jsx';
 import Timer from './components/Timer.jsx';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 
 const TextAreaWrapper = styled.div`
 	width: auto;
@@ -119,7 +122,7 @@ const App = () => {
 			/>
 			<label style={{display: 'flex', justifyContent: 'center', fontSize: '80%', margin: '8px'}}>
 				<input id='checkbox' onChange={handleChangeMode} type="checkbox"/>
-				Blind mode
+				<FontAwesomeIcon style={{fontSize: '12px', margin: '2.7px 2.5px 0px 0px'}} icon={faEyeSlash} /> Blind mode
 			</label>
 		</>
 	);
