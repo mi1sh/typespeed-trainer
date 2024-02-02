@@ -1,12 +1,13 @@
 import './App.css';
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 import styled from 'styled-components';
 import Word from './components/Word.jsx';
-import Timer from './components/Timer.jsx';
+import {MemoizedTimer} from './components/Timer.jsx';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faEyeSlash} from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 const TextAreaWrapper = styled.div`
 	width: auto;
@@ -39,14 +40,9 @@ const TypeArea = styled.input`
 	text-align: center;
 `;
 
-const getCloud = () => `
-fish second life heart love girlfriend massive react development production movement application about a side of the universe adopt console grand mom hear speak useless alone big first time change i feel falling fall us we you me they our homeless work study education lesson house country politics president society them ministry project javascript typescript refactoring format place spot silk property practice
-`.split(' ').sort(() => Math.random() > 0.5 ? 1 : -1);
-
-
 const App = () => {
+	const [randomWords, setRandomWords] = useState([]);
 	const [userInput, setUserInput] = useState('');
-	const cloud = useRef(getCloud());
 	const [startCounting, setStartCounting] = useState(false);
 	const [activeWordIndex, setActiveWordIndex] = useState(0);
 	const [correctWordsArray, setCorrectWordsArray] = useState([]);
@@ -54,8 +50,22 @@ const App = () => {
 
 	const inputRef = useRef();
 
+	useEffect(() => {
+		const fetchRandomWords = async () => {
+			try {
+				const response = await axios.get('https://random-word-api.vercel.app/api?words=30');
+				const wordsArray = response.data;
+				setRandomWords(wordsArray);
+			} catch (error) {
+				console.error('Error fetching random words: ', error);
+			}
+		};
+
+		fetchRandomWords();
+	}, []);
+
 	const proceesInput = (value) => {
-		if (activeWordIndex === cloud.current.length) {
+		if (activeWordIndex === randomWords.length) {
 			// стоп
 			return;
 		}
@@ -66,7 +76,7 @@ const App = () => {
 
 		if (value.endsWith(' ')) {
 
-			if (activeWordIndex === cloud.current.length - 1) {
+			if (activeWordIndex === randomWords.length - 1) {
 				setStartCounting(false);
 				setUserInput('Completed');
 			} else {
@@ -79,7 +89,7 @@ const App = () => {
 				// правильное слово
 				const word = value.trim();
 				const newResult = [...data];
-				newResult[activeWordIndex] = word === cloud.current[activeWordIndex];
+				newResult[activeWordIndex] = word === randomWords[activeWordIndex];
 				return newResult;
 			});
 		} else {
@@ -95,7 +105,7 @@ const App = () => {
 	return (
 		<>
 			<h1 className="title">typespeed - test</h1>
-			<Timer
+			<MemoizedTimer
 				startCounting={startCounting}
 				correctWordsArray={correctWordsArray}
 				setUserInput={setUserInput}
@@ -103,7 +113,7 @@ const App = () => {
 			/>
 			<TextAreaWrapper>
 				<Text>
-					{cloud.current.map((word, index) => {
+					{randomWords.map((word, index) => {
 						return <Word
 							key={index}
 							text={word}
@@ -121,8 +131,9 @@ const App = () => {
 				onChange={(e) => proceesInput(e.target.value)}
 			/>
 			<label style={{display: 'flex', justifyContent: 'center', fontSize: '80%', margin: '8px'}}>
-				<input id='checkbox' onChange={handleChangeMode} type="checkbox"/>
-				<FontAwesomeIcon style={{fontSize: '12px', margin: '2.7px 2.5px 0px 0px'}} icon={faEyeSlash} /> Blind mode
+				<input id="checkbox" onChange={handleChangeMode} type="checkbox"/>
+				<FontAwesomeIcon style={{fontSize: '12px', margin: '2.7px 2.5px 0px 0px'}} icon={faEyeSlash}/> Blind
+				mode
 			</label>
 		</>
 	);

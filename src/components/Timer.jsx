@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 
 const TimerWrapper = styled.div`
@@ -17,13 +17,14 @@ function Timer(props) {
 			timerId = setInterval(() => {
 				setTimeElapsed(oldTime => oldTime + 1);
 			}, 1000);
-		} else if (timeElapsed === 60) {
+		} else if (timeElapsed >= 60) {
 			setIsInputActive(false);
 			setUserInput('Time is over');
 		}
 		return () => clearInterval(timerId);
 
-	}, [startCounting, timeElapsed]);
+	}, [startCounting, timeElapsed, setUserInput, setIsInputActive]);
+
 	const minutes = timeElapsed / 60;
 
 	const calculateAccuracy = () => {
@@ -43,4 +44,4 @@ function Timer(props) {
 	);
 }
 
-export default Timer;
+export const MemoizedTimer = React.memo(Timer);
