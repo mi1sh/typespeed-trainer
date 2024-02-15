@@ -8,6 +8,7 @@ import {MemoizedTimer} from './components/Timer.jsx';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import Footer from './components/Footer.jsx';
 
 const TextAreaWrapper = styled.div`
 	width: auto;
@@ -53,7 +54,7 @@ const App = () => {
 	useEffect(() => {
 		const fetchRandomWords = async () => {
 			try {
-				const response = await axios.get('https://random-word-api.vercel.app/api?words=30');
+				const response = await axios.get('https://random-word-api.vercel.app/api?words=45');
 				const wordsArray = response.data;
 				setRandomWords(wordsArray);
 			} catch (error) {
@@ -135,6 +136,7 @@ const App = () => {
 				<FontAwesomeIcon style={{fontSize: '12px', margin: '2.7px 2.5px 0px 0px'}} icon={faEyeSlash}/> Blind
 				mode
 			</label>
+			<Footer/>
 		</>
 	);
 };

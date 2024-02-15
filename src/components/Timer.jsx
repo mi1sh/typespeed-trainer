@@ -13,7 +13,7 @@ function Timer(props) {
 	useEffect(() => {
 		let timerId;
 
-		if (startCounting && timeElapsed < 60) {
+		if (startCounting && timeElapsed < 60) { 
 			timerId = setInterval(() => {
 				setTimeElapsed(oldTime => oldTime + 1);
 			}, 1000);
@@ -27,7 +27,7 @@ function Timer(props) {
 
 	const minutes = timeElapsed / 60;
 
-	const calculateAccuracy = () => {
+		const calculateAccuracy = () => {
 		if (correctWordsArray.length === 0) {
 			return '0.00'
 		}
