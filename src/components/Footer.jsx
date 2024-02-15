@@ -14,9 +14,9 @@ const FooterWrapper = styled.div`
 function Footer() {
 	return (
 		<FooterWrapper>
-			<a href='https://github.com/mi1sh'><FontAwesomeIcon className={'footerBtn'} icon={faGithub} /></a>
-			<a href='https://t.me/m1ish'><FontAwesomeIcon className={'footerBtn'} icon={faTelegram} /></a>
-			<a href='mailto:mikhail.pelt@gmail.com'><FontAwesomeIcon className={'footerBtn'} icon={faEnvelope} /></a>
+			<a target='blank' href='https://github.com/mi1sh'><FontAwesomeIcon className={'footerBtn'} icon={faGithub} /></a>
+			<a target='blank' href='https://t.me/m1ish'><FontAwesomeIcon className={'footerBtn'} icon={faTelegram} /></a>
+			<a target='blank' href='mailto:mikhail.pelt@gmail.com'><FontAwesomeIcon className={'footerBtn'} icon={faEnvelope} /></a>
 		</FooterWrapper>
 	);
 };
