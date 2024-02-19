@@ -6,14 +6,14 @@ const TimerWrapper = styled.div`
 	margin-bottom: 2vh;
 `;
 
-function Timer(props) {
+const Timer = (props) => {
 	const {startCounting, correctWordsArray, setUserInput, setIsInputActive} = props;
 	const [timeElapsed, setTimeElapsed] = useState(0);
 
 	useEffect(() => {
 		let timerId;
 
-		if (startCounting && timeElapsed < 60) { 
+		if (startCounting && timeElapsed < 60) {
 			timerId = setInterval(() => {
 				setTimeElapsed(oldTime => oldTime + 1);
 			}, 1000);
@@ -27,7 +27,7 @@ function Timer(props) {
 
 	const minutes = timeElapsed / 60;
 
-		const calculateAccuracy = () => {
+	const calculateAccuracy = () => {
 		if (correctWordsArray.length === 0) {
 			return '0.00'
 		}
@@ -44,4 +44,4 @@ function Timer(props) {
 	);
 }
 
-export const MemoizedTimer = React.memo(Timer);
+export default Timer;

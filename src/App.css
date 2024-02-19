@@ -11,6 +11,10 @@ input[type=checkbox] {
     accent-color: #377c6d;
 }
 
+TextButton:hover {
+    color: #235347;
+}
+
 .counter {
     display: inline-block;
     margin: 0vw 1vw 0vw 1vw;

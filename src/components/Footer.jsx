@@ -19,6 +19,6 @@ function Footer() {
 			<a target='blank' href='mailto:mikhail.pelt@gmail.com'><FontAwesomeIcon className={'footerBtn'} icon={faEnvelope} /></a>
 		</FooterWrapper>
 	);
-};
+}
 
 export default Footer;

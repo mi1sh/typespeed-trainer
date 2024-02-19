@@ -1,6 +1,6 @@
-import React, {useEffect, useRef} from 'react';
+import React from 'react';
 
-function Word({text, active, correct}) {
+const Word = ({text, active, correct}) => {
 	if (correct === true) {
 		return <span className='correct'>{text} </span>
 	}
@@ -13,8 +13,5 @@ function Word({text, active, correct}) {
 
 	return <span>{text} </span>
 }
-
-// eslint-disable-next-line no-func-assign
-Word = React.memo(Word);
 
 export default Word;
