@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Word from './components/Word.jsx';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faEyeSlash} from '@fortawesome/free-solid-svg-icons';
+import {faArrowsRotate, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Footer from './components/Footer.jsx';
 import Timer from './components/Timer.jsx';
@@ -69,6 +69,7 @@ const TextButton = styled.button`
 		text-decoration: underline;
 		color: #235347;
 	}
+	
 `;
 
 
@@ -79,26 +80,44 @@ const App = () => {
 	const [activeWordIndex, setActiveWordIndex] = useState(0);
 	const [correctWordsArray, setCorrectWordsArray] = useState([]);
 	const [isInputActive, setIsInputActive] = useState(true);
+	const [timeElapsed, setTimeElapsed] = useState(0);
 	const [selectedWordCount, setSelectedWordCount] = useState(50);
+	const [bestRecord, setBestRecord] = useState(0);
 
 	const inputRef = useRef();
+	const minutes = timeElapsed / 60;
+
+	const fetchRandomWords = async () => {
+		try {
+			const response = await axios.get(`https://random-word-form.herokuapp.com/random/noun/?count=${selectedWordCount}`);
+			const wordsArray = response.data;
+			setRandomWords(wordsArray);
+		} catch (error) {
+			console.error('Error fetching random words: ', error);
+		}
+	};
 
 	useEffect(() => {
-		const fetchRandomWords = async () => {
-			try {
-				const response = await axios.get(`https://random-word-form.herokuapp.com/random/noun/?count=${selectedWordCount}`);
-				const wordsArray = response.data;
-				setRandomWords(wordsArray);
-			} catch (error) {
-				console.error('Error fetching random words: ', error);
-			}
-		};
-
 		fetchRandomWords();
 	}, [selectedWordCount]); // запрос отправляется при изменении выбранного количества слов
 
+	const calculateSpeed = () => {
+		return ((correctWordsArray.filter(Boolean).length / minutes) || 0).toFixed(1);
+	};
+
+	const updateBestRecord = (newRecord) => {
+		if (newRecord > bestRecord) {
+			setBestRecord(newRecord);
+		}
+	};
+
 	const handleWordCountChange = (count) => {
 		setSelectedWordCount(count);
+	};
+
+	const handleChangeMode = () => {
+		const inputType = inputRef.current.type;
+		inputRef.current.type = inputType === 'text' ? 'password' : 'text';
 	};
 
 	const proceesInput = (value) => {
@@ -114,7 +133,10 @@ const App = () => {
 		if (value.endsWith(' ')) {
 			if (activeWordIndex === randomWords.length - 1) {
 				setStartCounting(false);
+				setIsInputActive(false);
 				setUserInput('Completed');
+				const speed = calculateSpeed();
+				updateBestRecord(speed)
 			} else {
 				setUserInput('');
 			}
@@ -133,11 +155,6 @@ const App = () => {
 		}
 	};
 
-	const handleChangeMode = () => {
-		const inputType = inputRef.current.type;
-		inputRef.current.type = inputType === 'text' ? 'password' : 'text';
-	};
-
 	return (
 		<>
 			<h1 className="title">typespeed - test</h1>
@@ -146,6 +163,10 @@ const App = () => {
 				correctWordsArray={correctWordsArray}
 				setUserInput={setUserInput}
 				setIsInputActive={setIsInputActive}
+				timeElapsed={timeElapsed}
+				setTimeElapsed={setTimeElapsed}
+				setStartCounting={setStartCounting}
+				calculateSpeed={calculateSpeed}
 			/>
 			<TextAreaWrapper>
 				<Text>
@@ -166,6 +187,7 @@ const App = () => {
 							onClick={() => handleWordCountChange(100)}>100</TextButton>
 				<TextButton className={selectedWordCount === 150 ? 'activeBtn' : ''}
 							onClick={() => handleWordCountChange(150)}>150</TextButton>
+				<p style={{color: '#377c6d', float: 'right', paddingRight: '3em'}}>Best record: {bestRecord} WPM</p>
 			</ButtonWrapper>
 			<TypeArea
 				type="text"

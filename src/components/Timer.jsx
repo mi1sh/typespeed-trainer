@@ -7,8 +7,7 @@ const TimerWrapper = styled.div`
 `;
 
 const Timer = (props) => {
-	const {startCounting, correctWordsArray, setUserInput, setIsInputActive} = props;
-	const [timeElapsed, setTimeElapsed] = useState(0);
+	let {startCounting, correctWordsArray, setUserInput, setIsInputActive, timeElapsed, setTimeElapsed, setStartCounting, calculateSpeed} = props;
 
 	useEffect(() => {
 		let timerId;
@@ -18,14 +17,13 @@ const Timer = (props) => {
 				setTimeElapsed(oldTime => oldTime + 1);
 			}, 1000);
 		} else if (timeElapsed >= 60) {
+			setStartCounting(false);
 			setIsInputActive(false);
 			setUserInput('Time is over');
 		}
 		return () => clearInterval(timerId);
 
 	}, [startCounting, timeElapsed, setUserInput, setIsInputActive]);
-
-	const minutes = timeElapsed / 60;
 
 	const calculateAccuracy = () => {
 		if (correctWordsArray.length === 0) {
@@ -38,7 +36,7 @@ const Timer = (props) => {
 	return (
 		<TimerWrapper>
 			<p className={'counter'}>(Timer: {timeElapsed}</p>
-			<p className={'counter'}>Speed: {((correctWordsArray.filter(Boolean).length / minutes) || 0).toFixed(1)} WPM</p>
+			<p className={'counter'}>Speed: {calculateSpeed()} WPM</p>
 			<p className={'counter'}>Accuracy: {calculateAccuracy()}%)</p>
 		</TimerWrapper>
 	);
