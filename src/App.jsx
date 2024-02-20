@@ -69,7 +69,10 @@ const TextButton = styled.button`
 		text-decoration: underline;
 		color: #235347;
 	}
-	
+
+	&.refreshBtn {
+		margin-left: 12.2vw;
+	}
 `;
 
 
@@ -120,6 +123,17 @@ const App = () => {
 		inputRef.current.type = inputType === 'text' ? 'password' : 'text';
 	};
 
+	const handleRefreshWords = () => {
+		fetchRandomWords();
+		setStartCounting(false);
+		setIsInputActive(true);
+		setActiveWordIndex(0);
+		setUserInput('');
+		setTimeElapsed(0);
+		setCorrectWordsArray([]);
+		setBestRecord(0);
+	};
+
 	const proceesInput = (value) => {
 		if (activeWordIndex === randomWords.length) {
 			// стоп
@@ -136,7 +150,7 @@ const App = () => {
 				setIsInputActive(false);
 				setUserInput('Completed');
 				const speed = calculateSpeed();
-				updateBestRecord(speed)
+				updateBestRecord(speed);
 			} else {
 				setUserInput('');
 			}
@@ -171,8 +185,9 @@ const App = () => {
 			<TextAreaWrapper>
 				<Text>
 					{randomWords.map((word, index) => {
+						const wordKey = `word-${index}-${word}`
 						return <Word
-							key={index}
+							key={wordKey}
 							text={word}
 							active={index === activeWordIndex}
 							correct={correctWordsArray[index]}
@@ -187,6 +202,8 @@ const App = () => {
 							onClick={() => handleWordCountChange(100)}>100</TextButton>
 				<TextButton className={selectedWordCount === 150 ? 'activeBtn' : ''}
 							onClick={() => handleWordCountChange(150)}>150</TextButton>
+				<TextButton className={'refreshBtn'} onClick={() => handleRefreshWords()}><FontAwesomeIcon
+					style={{paddingRight: '3px', marginLeft: '-3px'}} icon={faArrowsRotate}/>Refresh</TextButton>
 				<p style={{color: '#377c6d', float: 'right', paddingRight: '3em'}}>Best record: {bestRecord} WPM</p>
 			</ButtonWrapper>
 			<TypeArea
