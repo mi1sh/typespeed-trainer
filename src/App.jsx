@@ -27,13 +27,12 @@ const TextAreaWrapper = styled.div`
 const Text = styled.p`
 	overflow: hidden;
 	font-family: "Hack", serif;
-	max-font-size: 1.5em;
 	min-width: 25vw;
 	max-width: 800px;
 	max-height: 50vh;
 	min-height: 8vh;
 	word-wrap: break-word;
-	font-size: 1.2em;
+	font-size: 1em;
 `;
 
 
@@ -101,6 +100,26 @@ const App = () => {
 	const inputRef = useRef();
 	const minutes = timeElapsed / 60;
 
+	useEffect(() => {
+		fetchRandomWords();
+	}, [selectedWordCount]);
+
+	useEffect(() => {
+		const handleKeyDown = (e) => {
+			if (e.key === 'r' || e.key === 'R') {
+				if (document.activeElement !== inputRef.current) {
+					handleRefreshWords();
+				}
+			}
+		};
+
+		document.addEventListener('keydown', handleKeyDown);
+
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown);
+		};
+	}, []);
+
 	const fetchRandomWords = async () => {
 		try {
 			const response = await axios.get(`https://random-word-form.herokuapp.com/random/noun/?count=${selectedWordCount}`);
@@ -109,11 +128,8 @@ const App = () => {
 		} catch (error) {
 			console.error('Error fetching random words: ', error);
 		}
-	};
 
-	useEffect(() => {
-		fetchRandomWords();
-	}, [selectedWordCount]);
+	};
 
 	const calculateSpeed = () => {
 		return ((correctWordsArray.filter(Boolean).length / minutes) || 0).toFixed(1);
@@ -221,7 +237,7 @@ const App = () => {
 				</ButtonWrapper>
 				<ButtonWrapper>
 					<TextButton className={'refreshBtn'} onClick={() => handleRefreshWords()}><FontAwesomeIcon
-						style={{paddingRight: '3px', marginLeft: '-3px'}} icon={faArrowsRotate}/>Refresh</TextButton>
+						style={{paddingRight: '3px', marginLeft: '-3px'}} icon={faArrowsRotate}/>Refresh<span style={{fontSize: '0.8em', position: 'absolute', padding: '0.4em 0em 0em 0.2em'}}>(R)</span></TextButton>
 				</ButtonWrapper>
 				<ButtonWrapper>
 					<p style={{color: '#377c6d', float: 'right', paddingRight: '3em', fontSize: '0.8em'}}>Best record: {bestRecord} WPM</p>
