@@ -38,7 +38,6 @@ const Text = styled.p`
 
 
 const TypeArea = styled.input`
-	margin-top: 1vh;
 	border: 2px solid #235347FF;
 	border-radius: 4px;
 	min-width: 160px;
@@ -48,19 +47,27 @@ const TypeArea = styled.input`
 `;
 
 const ButtonWrapper = styled.div`
-	margin-bottom: 2em;
-	text-align: left;
+	width: calc(100% / 3 - 13px);
+`;
+
+const InfoPanelWrapper = styled.div`
+	margin-bottom: 1.5em;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+	&:after {
+		width: calc(100% / 3 - 13px);
+		content: '';
+		display: table;
+	}
 `;
 
 const TextButton = styled.button`
 	background: none !important;
 	border: none;
-	font-size: 1em;
+	font-size: 0.8em;
 	color: #377c6d;
 	cursor: pointer;
-	padding: 0px 0px 0px 10px;
-	margin-left: 10px;
-
 	&:hover {
 		color: #235347;
 	}
@@ -71,7 +78,7 @@ const TextButton = styled.button`
 	}
 
 	&.refreshBtn {
-		margin-left: 12.2vw;
+		margin: 0;
 	}
 `;
 
@@ -85,7 +92,11 @@ const App = () => {
 	const [isInputActive, setIsInputActive] = useState(true);
 	const [timeElapsed, setTimeElapsed] = useState(0);
 	const [selectedWordCount, setSelectedWordCount] = useState(50);
-	const [bestRecord, setBestRecord] = useState(0);
+	const [bestRecord, setBestRecord] = useState(() => {
+		// загрузка лучшего рекорда из localStorage при инициализации состояния
+		const savedBestRecord = localStorage.getItem('bestRecord');
+		return savedBestRecord ? parseFloat(savedBestRecord) :  0;
+	});
 
 	const inputRef = useRef();
 	const minutes = timeElapsed / 60;
@@ -102,7 +113,7 @@ const App = () => {
 
 	useEffect(() => {
 		fetchRandomWords();
-	}, [selectedWordCount]); // запрос отправляется при изменении выбранного количества слов
+	}, [selectedWordCount]);
 
 	const calculateSpeed = () => {
 		return ((correctWordsArray.filter(Boolean).length / minutes) || 0).toFixed(1);
@@ -111,6 +122,8 @@ const App = () => {
 	const updateBestRecord = (newRecord) => {
 		if (newRecord > bestRecord) {
 			setBestRecord(newRecord);
+			// cохранение рекорда в localStorage
+			localStorage.setItem('bestRecord', newRecord.toString());
 		}
 	};
 
@@ -131,7 +144,9 @@ const App = () => {
 		setUserInput('');
 		setTimeElapsed(0);
 		setCorrectWordsArray([]);
-		setBestRecord(0);
+		// загрузка рекорда из localStorage
+		const savedBestRecord = localStorage.getItem('bestRecord');
+		setBestRecord(savedBestRecord ? parseFloat(savedBestRecord) :  0);
 	};
 
 	const proceesInput = (value) => {
@@ -195,17 +210,23 @@ const App = () => {
 					})}
 				</Text>
 			</TextAreaWrapper>
-			<ButtonWrapper>
-				<TextButton className={selectedWordCount === 50 ? 'activeBtn' : ''}
-							onClick={() => handleWordCountChange(50)}>50</TextButton>
-				<TextButton className={selectedWordCount === 100 ? 'activeBtn' : ''}
-							onClick={() => handleWordCountChange(100)}>100</TextButton>
-				<TextButton className={selectedWordCount === 150 ? 'activeBtn' : ''}
-							onClick={() => handleWordCountChange(150)}>150</TextButton>
-				<TextButton className={'refreshBtn'} onClick={() => handleRefreshWords()}><FontAwesomeIcon
-					style={{paddingRight: '3px', marginLeft: '-3px'}} icon={faArrowsRotate}/>Refresh</TextButton>
-				<p style={{color: '#377c6d', float: 'right', paddingRight: '3em'}}>Best record: {bestRecord} WPM</p>
-			</ButtonWrapper>
+			<InfoPanelWrapper>
+				<ButtonWrapper>
+					<TextButton className={selectedWordCount === 50 ? 'activeBtn' : ''}
+								onClick={() => handleWordCountChange(50)}>50</TextButton>
+					<TextButton className={selectedWordCount === 100 ? 'activeBtn' : ''}
+								onClick={() => handleWordCountChange(100)}>100</TextButton>
+					<TextButton className={selectedWordCount === 150 ? 'activeBtn' : ''}
+								onClick={() => handleWordCountChange(150)}>150</TextButton>
+				</ButtonWrapper>
+				<ButtonWrapper>
+					<TextButton className={'refreshBtn'} onClick={() => handleRefreshWords()}><FontAwesomeIcon
+						style={{paddingRight: '3px', marginLeft: '-3px'}} icon={faArrowsRotate}/>Refresh</TextButton>
+				</ButtonWrapper>
+				<ButtonWrapper>
+					<p style={{color: '#377c6d', float: 'right', paddingRight: '3em', fontSize: '0.8em'}}>Best record: {bestRecord} WPM</p>
+				</ButtonWrapper>
+			</InfoPanelWrapper>
 			<TypeArea
 				type="text"
 				ref={inputRef}
