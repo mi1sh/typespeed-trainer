@@ -237,7 +237,7 @@ const App = () => {
 				</ButtonWrapper>
 				<ButtonWrapper>
 					<TextButton className={'refreshBtn'} onClick={() => handleRefreshWords()}><FontAwesomeIcon
-						style={{paddingRight: '3px', marginLeft: '-3px'}} icon={faArrowsRotate}/>Refresh<span style={{fontSize: '0.8em', position: 'absolute', padding: '0.4em 0em 0em 0.2em'}}>(R)</span></TextButton>
+						style={{paddingRight: '3px', marginLeft: '-3px'}} icon={faArrowsRotate}/>Refresh<span style={{fontSize: '0.7em', position: 'absolute', padding: '0.4em 0em 0em 0.15em'}}>(R)</span></TextButton>
 				</ButtonWrapper>
 				<ButtonWrapper>
 					<p style={{color: '#377c6d', float: 'right', paddingRight: '3em', fontSize: '0.8em'}}>Best record: {bestRecord} WPM</p>
