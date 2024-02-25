@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const TimerWrapper = styled.div`
 	justify-content: center;
-	margin-bottom: 2vh;
 `;
 
 const Timer = (props) => {

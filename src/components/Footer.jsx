@@ -6,15 +6,14 @@ import {faGithub} from '@fortawesome/free-brands-svg-icons';
 
 const FooterWrapper = styled.div`
 	@media screen and (max-width: 430px) {
-		height: 5%;
-		display: flex;
-		flex-direction: row;
+		height: 3%;
+		padding-bottom: 1em;
 	}
 	position: fixed;
 	left: 0;
 	bottom: 0;
 	width: 100%;
-	text-align: center;
+	align-items: center;
 `
 
 function Footer() {

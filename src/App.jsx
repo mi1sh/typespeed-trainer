@@ -10,39 +10,52 @@ import axios from 'axios';
 import Footer from './components/Footer.jsx';
 import Timer from './components/Timer.jsx';
 
+const Wrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+`;
+
 const TextAreaWrapper = styled.div`
 	@media screen and (max-width: 430px) {
-		font-size: 82%;
+		font-size: 90%;
 		margin: 5px;
 		padding: 3px;
 	}
 	width: auto;
 	min-width: 25vw;
 	max-width: 800px;
-	max-height: 50vh;
+	max-height: 80vh;
 	min-height: 8vh;
+	height: 100%;
 	border: 4px solid rgb(35, 83, 71);
 	border-radius: 10px;
 	padding: 10px;
-	margin-bottom: 0.4em;
+	margin: 0.5em 0em 0em 0em;
 	word-wrap: break-word;
 `;
 
 const Text = styled.p`
+	@media screen and (max-width: 430px) {
+		font-size: 90%;
+	}
 	overflow: hidden;
 	font-family: "Hack", serif;
 	min-width: 25vw;
 	max-width: 800px;
-	max-height: 50vh;
+	max-height: 80vh;
 	min-height: 8vh;
 	word-wrap: break-word;
-	font-size: 80%;
+	font-size: 100%;
 `;
 
 
 const TypeArea = styled.input`
 	border: 2px solid #235347FF;
 	border-radius: 4px;
+	margin-top: 2em;
 	min-width: 160px;
 	width: 15vw;
 	height: 20px;
@@ -52,16 +65,19 @@ const TypeArea = styled.input`
 const ButtonWrapper = styled.div`
 	width: calc(100% / 3 - 13px);
 	display: flex;
+	justify-content: center;
 `;
 
 const InfoPanelWrapper = styled.div`
 	@media screen and (max-width: 430px) {
 		font-size: 0.9em;
 	}
-	margin-bottom: 1.5em;
+	margin: 0.4em 0em 1em 0em;
 	display: flex;
 	flex-flow: row wrap;
+	width: 100%;
 	justify-content: space-between;
+
 	&:after {
 		width: calc(100% / 3 - 13px);
 		content: '';
@@ -72,12 +88,14 @@ const InfoPanelWrapper = styled.div`
 const TextButton = styled.button`
 	@media screen and (max-width: 430px) {
 		padding: 0.6em;
+		font-size: 0.8em;
 	}
 	background: none !important;
 	border: none;
-	font-size: 0.8em;
+	font-size: 1em;
 	color: #377c6d;
 	cursor: pointer;
+
 	&:hover {
 		color: #235347;
 	}
@@ -105,7 +123,7 @@ const App = () => {
 	const [bestRecord, setBestRecord] = useState(() => {
 		// загрузка лучшего рекорда из localStorage при инициализации состояния
 		const savedBestRecord = localStorage.getItem('bestRecord');
-		return savedBestRecord ? parseFloat(savedBestRecord) :  0;
+		return savedBestRecord ? parseFloat(savedBestRecord) : 0;
 	});
 
 	const inputRef = useRef();
@@ -173,7 +191,7 @@ const App = () => {
 		setCorrectWordsArray([]);
 		// загрузка рекорда из localStorage
 		const savedBestRecord = localStorage.getItem('bestRecord');
-		setBestRecord(savedBestRecord ? parseFloat(savedBestRecord) :  0);
+		setBestRecord(savedBestRecord ? parseFloat(savedBestRecord) : 0);
 	};
 
 	const proceesInput = (value) => {
@@ -213,61 +231,70 @@ const App = () => {
 
 	return (
 		<>
-			<h1 className="title">typespeed - test</h1>
-			<Timer
-				startCounting={startCounting}
-				correctWordsArray={correctWordsArray}
-				setUserInput={setUserInput}
-				setIsInputActive={setIsInputActive}
-				timeElapsed={timeElapsed}
-				setTimeElapsed={setTimeElapsed}
-				setStartCounting={setStartCounting}
-				calculateSpeed={calculateSpeed}
-				updateBestRecord={updateBestRecord}
-			/>
-			<TextAreaWrapper>
-				<Text>
-					{randomWords.map((word, index) => {
-						const wordKey = `word-${index}-${word}`
-						return <Word
-							key={wordKey}
-							text={word}
-							active={index === activeWordIndex}
-							correct={correctWordsArray[index]}
-						/>;
-					})}
-				</Text>
-			</TextAreaWrapper>
-			<InfoPanelWrapper>
-				<ButtonWrapper>
-					<TextButton className={selectedWordCount === 50 ? 'activeBtn' : ''}
-								onClick={() => handleWordCountChange(50)}>50</TextButton>
-					<TextButton className={selectedWordCount === 100 ? 'activeBtn' : ''}
-								onClick={() => handleWordCountChange(100)}>100</TextButton>
-					<TextButton className={selectedWordCount === 150 ? 'activeBtn' : ''}
-								onClick={() => handleWordCountChange(150)}>150</TextButton>
-				</ButtonWrapper>
-				<ButtonWrapper>
-					<TextButton className={'refreshBtn'} onClick={() => handleRefreshWords()}><FontAwesomeIcon
-						style={{paddingRight: '3px', marginLeft: '-3px'}} icon={faArrowsRotate}/>Refresh<span style={{fontSize: '0.7em', position: 'absolute', padding: '0.4em 0em 0em 0.15em'}}>(R)</span></TextButton>
-				</ButtonWrapper>
-				<ButtonWrapper>
-					<p style={{color: '#377c6d', float: 'right', paddingRight: '3em', fontSize: '0.8em'}}>Best record: {bestRecord} WPM</p>
-				</ButtonWrapper>
-			</InfoPanelWrapper>
-			<TypeArea
-				type="text"
-				ref={inputRef}
-				disabled={!isInputActive}
-				value={userInput}
-				onChange={(e) => proceesInput(e.target.value)}
-			/>
-			<label style={{display: 'flex', justifyContent: 'center', fontSize: '80%', margin: '8px'}}>
-				<input id="checkbox" onChange={handleChangeMode} type="checkbox"/>
-				<FontAwesomeIcon style={{fontSize: '12px', margin: '2.7px 2.5px 0px 0px'}} icon={faEyeSlash}/> Blind
-				mode
-			</label>
-			<Footer/>
+			<Wrapper>
+				<h1 className="title">typespeed - test</h1>
+				<Timer
+					startCounting={startCounting}
+					correctWordsArray={correctWordsArray}
+					setUserInput={setUserInput}
+					setIsInputActive={setIsInputActive}
+					timeElapsed={timeElapsed}
+					setTimeElapsed={setTimeElapsed}
+					setStartCounting={setStartCounting}
+					calculateSpeed={calculateSpeed}
+					updateBestRecord={updateBestRecord}
+				/>
+				<TextAreaWrapper>
+					<Text>
+						{randomWords.map((word, index) => {
+							const wordKey = `word-${index}-${word}`;
+							return <Word
+								key={wordKey}
+								text={word}
+								active={index === activeWordIndex}
+								correct={correctWordsArray[index]}
+							/>;
+						})}
+					</Text>
+				</TextAreaWrapper>
+				<InfoPanelWrapper>
+					<ButtonWrapper>
+						<TextButton className={selectedWordCount === 50 ? 'activeBtn' : ''}
+									onClick={() => handleWordCountChange(50)}>50</TextButton>
+						<TextButton className={selectedWordCount === 100 ? 'activeBtn' : ''}
+									onClick={() => handleWordCountChange(100)}>100</TextButton>
+						<TextButton className={selectedWordCount === 150 ? 'activeBtn' : ''}
+									onClick={() => handleWordCountChange(150)}>150</TextButton>
+					</ButtonWrapper>
+					<ButtonWrapper>
+						<TextButton className={'refreshBtn'} onClick={() => handleRefreshWords()}><FontAwesomeIcon
+							style={{paddingRight: '3px', marginLeft: '-3px'}} icon={faArrowsRotate}/>Refresh<span
+							style={{
+								fontSize: '0.7em',
+								position: 'absolute',
+								padding: '0.4em 0em 0em 0.15em'
+							}}>(R)</span></TextButton>
+					</ButtonWrapper>
+					<ButtonWrapper>
+						<p style={{color: '#377c6d', float: 'right', paddingRight: '3em', fontSize: '0.8em'}}>Best
+							record: {bestRecord} WPM</p>
+					</ButtonWrapper>
+				</InfoPanelWrapper>
+				<TypeArea
+					type="text"
+					ref={inputRef}
+					disabled={!isInputActive}
+					value={userInput}
+					maximum-scale="1"
+					onChange={(e) => proceesInput(e.target.value)}
+				/>
+				<label style={{display: 'flex', justifyContent: 'center', fontSize: '80%', margin: '8px'}}>
+					<input id="checkbox" onChange={handleChangeMode} type="checkbox"/>
+					<FontAwesomeIcon style={{fontSize: '12px', margin: '2.7px 2.5px 0px 0px'}} icon={faEyeSlash}/> Blind
+					mode
+				</label>
+				<Footer/>
+			</Wrapper>
 		</>
 	);
 };

@@ -5,20 +5,16 @@
 
 @media screen and (max-width: 430px) {
 	.title {
-		font-size: 2em;
+		font-size: 2.3em !important;
+		margin: 1em 0em 0.8em 0em !important;
 	}
 
 	.title::after {
 		bottom: 1px !important;
-		height: 2px !important;
 	}
 
 	.footerBtn {
-		font-size: 1em!important;
-	}
-
-	.counter {
-		font-size: 0.7em !important;
+		font-size: 1.3em!important;
 	}
 }
 
@@ -68,8 +64,9 @@ input[type=checkbox] {
 
 .title {
 	font-family: "BigBlueTerm437 Nerd Font Mono", serif;
+	font-size: 4em;
 	position: relative;
-	display: inline-block;
+	margin: 1.5em 0em 0.8em 0em;
 }
 
 .title::after {
