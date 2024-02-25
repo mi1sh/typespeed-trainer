@@ -7,7 +7,7 @@ const TimerWrapper = styled.div`
 `;
 
 const Timer = (props) => {
-	let {startCounting, correctWordsArray, setUserInput, setIsInputActive, timeElapsed, setTimeElapsed, setStartCounting, calculateSpeed} = props;
+	let {startCounting, correctWordsArray, setUserInput, setIsInputActive, timeElapsed, setTimeElapsed, setStartCounting, calculateSpeed, updateBestRecord} = props;
 
 	useEffect(() => {
 		let timerId;
@@ -20,6 +20,8 @@ const Timer = (props) => {
 			setStartCounting(false);
 			setIsInputActive(false);
 			setUserInput('Time is over');
+			const speed = calculateSpeed();
+			updateBestRecord(speed);
 		}
 		return () => clearInterval(timerId);
 

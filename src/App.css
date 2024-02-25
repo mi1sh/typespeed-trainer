@@ -1,83 +1,98 @@
 #root {
-  margin: 0 auto;
-  text-align: center;
+	margin: 0 auto;
+	text-align: center;
+}
+
+@media screen and (max-width: 430px) {
+	.title {
+		font-size: 2em;
+	}
+
+	.title::after {
+		bottom: 1px !important;
+		height: 2px !important;
+	}
+
+	.footerBtn {
+		font-size: 1em!important;
+	}
+
+	.counter {
+		font-size: 0.7em !important;
+	}
 }
 
 input[type=checkbox] {
-    transform: scale(0.8);
+	transform: scale(0.8);
 }
 
 input[type=checkbox] {
-    accent-color: #377c6d;
-}
-
-TextButton:hover {
-    color: #235347;
+	accent-color: #377c6d;
 }
 
 .counter {
-    display: inline-block;
-    margin: 0vw 1vw 0vw 1vw;
-    font-family: "BigBlueTerm437 Nerd Font Mono", serif;
-    font-size: 15px;
+	display: inline-block;
+	margin: 0vw 1vw 0vw 1vw;
+	font-family: "BigBlueTerm437 Nerd Font Mono", serif;
+	font-size: 1em;
 }
 
 .correct {
-    font-weight: bold;
-    color: #149414;
+	font-weight: bold;
+	color: #149414;
 }
 
 .incorrect {
-    font-weight: bold;
-    color: brown;
-    text-decoration: line-through;
+	font-weight: bold;
+	color: brown;
+	text-decoration: line-through;
 }
 
 .active {
-  font-weight: bold;
-    position: relative;
+	font-weight: bold;
+	position: relative;
 }
 
 .active::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    z-index: -1;
-    bottom: -1px;
-    width: 90%;
-    height: 2px;
-    background-color: #377c6d;
-    display: block;
+	content: '';
+	position: absolute;
+	left: 0;
+	z-index: -1;
+	bottom: -1px;
+	width: 90%;
+	height: 2px;
+	background-color: #377c6d;
+	display: block;
 
 }
+
 .title {
-  font-family: "BigBlueTerm437 Nerd Font Mono", serif;
-  position: relative;
-  display: inline-block;
+	font-family: "BigBlueTerm437 Nerd Font Mono", serif;
+	position: relative;
+	display: inline-block;
 }
 
 .title::after {
-   content: '';
-   position: absolute;
-   left: 0;
-    z-index: -1;
-   bottom: 5px;
-   width:
-       100%;
-   height: 3px;
-   background-color: #235347;
-    display: block;
+	content: '';
+	position: absolute;
+	left: 0;
+	z-index: -1;
+	bottom: 5px;
+	width: 100%;
+	height: 3px;
+	background-color: #235347;
+	display: block;
 }
 
 .footerBtn {
-    font-size: 19px;
-    color: #d7d7d7;
-    max-width: 300px;
-    margin: 10px 40px 5px 40px;
-    padding: 10px 15px 10px 15px;
-    transition: transform .1s ease-in-out;
-}
+	font-size: 1.2em;
+	color: #d7d7d7;
+	max-width: 300px;
+	margin: 10px 40px 5px 40px;
+	padding: 10px 15px 10px 15px;
+	transition: transform .1s ease-in-out;
 
-.footerBtn:hover {
-    transform: scale(1.3)
+	&:hover {
+		transform: scale(1.3)
+	}
 }

@@ -11,12 +11,16 @@ import Footer from './components/Footer.jsx';
 import Timer from './components/Timer.jsx';
 
 const TextAreaWrapper = styled.div`
+	@media screen and (max-width: 430px) {
+		font-size: 82%;
+		margin: 5px;
+		padding: 3px;
+	}
 	width: auto;
 	min-width: 25vw;
 	max-width: 800px;
 	max-height: 50vh;
 	min-height: 8vh;
-	height: auto;
 	border: 4px solid rgb(35, 83, 71);
 	border-radius: 10px;
 	padding: 10px;
@@ -32,7 +36,7 @@ const Text = styled.p`
 	max-height: 50vh;
 	min-height: 8vh;
 	word-wrap: break-word;
-	font-size: 1em;
+	font-size: 80%;
 `;
 
 
@@ -47,9 +51,13 @@ const TypeArea = styled.input`
 
 const ButtonWrapper = styled.div`
 	width: calc(100% / 3 - 13px);
+	display: flex;
 `;
 
 const InfoPanelWrapper = styled.div`
+	@media screen and (max-width: 430px) {
+		font-size: 0.9em;
+	}
 	margin-bottom: 1.5em;
 	display: flex;
 	flex-flow: row wrap;
@@ -62,6 +70,9 @@ const InfoPanelWrapper = styled.div`
 `;
 
 const TextButton = styled.button`
+	@media screen and (max-width: 430px) {
+		padding: 0.6em;
+	}
 	background: none !important;
 	border: none;
 	font-size: 0.8em;
@@ -212,6 +223,7 @@ const App = () => {
 				setTimeElapsed={setTimeElapsed}
 				setStartCounting={setStartCounting}
 				calculateSpeed={calculateSpeed}
+				updateBestRecord={updateBestRecord}
 			/>
 			<TextAreaWrapper>
 				<Text>

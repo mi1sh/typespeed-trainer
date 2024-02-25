@@ -5,12 +5,18 @@ import {faTelegram} from '@fortawesome/free-brands-svg-icons';
 import {faGithub} from '@fortawesome/free-brands-svg-icons';
 
 const FooterWrapper = styled.div`
+	@media screen and (max-width: 430px) {
+		height: 5%;
+		display: flex;
+		flex-direction: row;
+	}
 	position: fixed;
 	left: 0;
 	bottom: 0;
 	width: 100%;
 	text-align: center;
 `
+
 function Footer() {
 	return (
 		<FooterWrapper>
