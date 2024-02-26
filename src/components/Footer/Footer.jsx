@@ -1,20 +1,8 @@
-import styled from 'styled-components';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import {faTelegram} from '@fortawesome/free-brands-svg-icons';
 import {faGithub} from '@fortawesome/free-brands-svg-icons';
-
-const FooterWrapper = styled.div`
-	@media screen and (max-width: 430px) {
-		height: 3%;
-		padding-bottom: 1em;
-	}
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	align-items: center;
-`
+import {FooterWrapper} from './Footer.styles.js';
 
 function Footer() {
 	return (

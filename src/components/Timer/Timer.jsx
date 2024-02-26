@@ -1,9 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import styled from 'styled-components';
-
-const TimerWrapper = styled.div`
-	justify-content: center;
-`;
+import {TimerWrapper} from './Timer.styles.js';
 
 const Timer = (props) => {
 	let {startCounting, correctWordsArray, setUserInput, setIsInputActive, timeElapsed, setTimeElapsed, setStartCounting, calculateSpeed, updateBestRecord} = props;

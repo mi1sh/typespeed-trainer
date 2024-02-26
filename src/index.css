@@ -4,13 +4,13 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #292b2f;
+  background-color: #292b2f !important;
 
   text-rendering: optimizeLegibility;
 }
 
 html {
-  background-color: #292b2f;
+  background-color: #292b2f !important;
 }
 
 a {

@@ -1,117 +1,25 @@
 import './App.css';
 import {useEffect, useRef, useState} from 'react';
-
-import styled from 'styled-components';
-import Word from './components/Word.jsx';
-
+import Word from './components/Word/Word.jsx';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faArrowsRotate, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import Footer from './components/Footer.jsx';
-import Timer from './components/Timer.jsx';
-
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	height: 100%;
-	width: 100%;
-`;
-
-const TextAreaWrapper = styled.div`
-	@media screen and (max-width: 430px) {
-		font-size: 90%;
-		margin: 5px;
-		padding: 3px;
-	}
-	width: auto;
-	min-width: 25vw;
-	max-width: 800px;
-	max-height: 80vh;
-	min-height: 8vh;
-	height: 100%;
-	border: 4px solid rgb(35, 83, 71);
-	border-radius: 10px;
-	padding: 10px;
-	margin: 0.5em 0em 0em 0em;
-	word-wrap: break-word;
-`;
-
-const Text = styled.p`
-	@media screen and (max-width: 430px) {
-		font-size: 90%;
-	}
-	overflow: hidden;
-	font-family: "Hack", serif;
-	min-width: 25vw;
-	max-width: 800px;
-	max-height: 80vh;
-	min-height: 8vh;
-	word-wrap: break-word;
-	font-size: 100%;
-`;
-
-
-const TypeArea = styled.input`
-	border: 2px solid #235347FF;
-	border-radius: 4px;
-	margin-top: 2em;
-	min-width: 160px;
-	width: 15vw;
-	height: 20px;
-	text-align: center;
-`;
-
-const ButtonWrapper = styled.div`
-	width: calc(100% / 3 - 13px);
-	display: flex;
-	justify-content: center;
-`;
-
-const InfoPanelWrapper = styled.div`
-	@media screen and (max-width: 430px) {
-		font-size: 0.9em;
-	}
-	margin: 0.4em 0em 1em 0em;
-	display: flex;
-	flex-flow: row wrap;
-	width: 100%;
-	justify-content: space-between;
-
-	&:after {
-		width: calc(100% / 3 - 13px);
-		content: '';
-		display: table;
-	}
-`;
-
-const TextButton = styled.button`
-	@media screen and (max-width: 430px) {
-		padding: 0.6em;
-		font-size: 0.8em;
-	}
-	background: none !important;
-	border: none;
-	font-size: 1em;
-	color: #377c6d;
-	cursor: pointer;
-
-	&:hover {
-		color: #235347;
-	}
-
-	&.activeBtn {
-		text-decoration: underline;
-		color: #235347;
-	}
-
-	&.refreshBtn {
-		margin: 0;
-	}
-`;
-
+import Footer from './components/Footer/Footer.jsx';
+import Timer from './components/Timer/Timer.jsx';
+import {
+	ButtonWrapper,
+	InfoPanelWrapper,
+	TextAreaWrapper,
+	TextButton,
+	TypeArea,
+	Wrapper,
+	Text,
+	Title, BlindMode
+} from './App.styles.js';
+import SquareLoader from 'react-spinners/SquareLoader';
 
 const App = () => {
+	const [isLoading, setIsLoading] = useState(false);
 	const [randomWords, setRandomWords] = useState([]);
 	const [userInput, setUserInput] = useState('');
 	const [startCounting, setStartCounting] = useState(false);
@@ -119,12 +27,21 @@ const App = () => {
 	const [correctWordsArray, setCorrectWordsArray] = useState([]);
 	const [isInputActive, setIsInputActive] = useState(true);
 	const [timeElapsed, setTimeElapsed] = useState(0);
-	const [selectedWordCount, setSelectedWordCount] = useState(50);
+	const [selectedWordCount, setSelectedWordCount] = useState(() => {
+		const savedSelectedWordCount = localStorage.getItem('selectedWordCount');
+		return savedSelectedWordCount ? parseFloat(savedSelectedWordCount) : 50;
+	});
 	const [bestRecord, setBestRecord] = useState(() => {
-		// загрузка лучшего рекорда из localStorage при инициализации состояния
 		const savedBestRecord = localStorage.getItem('bestRecord');
 		return savedBestRecord ? parseFloat(savedBestRecord) : 0;
 	});
+
+	if(navigator.userAgent.indexOf('iPhone') > -1 )
+	{
+		document
+			.querySelector("[name=viewport]")
+			.setAttribute("content","width=device-width, initial-scale=1, maximum-scale=1");
+	}
 
 	const inputRef = useRef();
 	const minutes = timeElapsed / 60;
@@ -150,12 +67,15 @@ const App = () => {
 	}, []);
 
 	const fetchRandomWords = async () => {
+		setIsLoading(true);
 		try {
 			const response = await axios.get(`https://random-word-form.herokuapp.com/random/noun/?count=${selectedWordCount}`);
 			const wordsArray = response.data;
 			setRandomWords(wordsArray);
 		} catch (error) {
 			console.error('Error fetching random words: ', error);
+		} finally {
+			setIsLoading(false);
 		}
 
 	};
@@ -174,6 +94,7 @@ const App = () => {
 
 	const handleWordCountChange = (count) => {
 		setSelectedWordCount(count);
+		localStorage.setItem('selectedWordCount', count.toString());
 	};
 
 	const handleChangeMode = () => {
@@ -232,7 +153,7 @@ const App = () => {
 	return (
 		<>
 			<Wrapper>
-				<h1 className="title">typespeed - test</h1>
+				<Title>typespeed - test</Title>
 				<Timer
 					startCounting={startCounting}
 					correctWordsArray={correctWordsArray}
@@ -245,17 +166,24 @@ const App = () => {
 					updateBestRecord={updateBestRecord}
 				/>
 				<TextAreaWrapper>
-					<Text>
-						{randomWords.map((word, index) => {
-							const wordKey = `word-${index}-${word}`;
-							return <Word
-								key={wordKey}
-								text={word}
-								active={index === activeWordIndex}
-								correct={correctWordsArray[index]}
-							/>;
-						})}
-					</Text>
+					{isLoading ? <SquareLoader
+							className={'loader'}
+							color="#377c6d"
+							loading
+							speedMultiplier={1}
+							size={50}
+						/> :
+						<Text selectedWordCount={selectedWordCount}>
+							{randomWords.map((word, index) => {
+								const wordKey = `word-${index}-${word}`;
+								return <Word
+									key={wordKey}
+									text={word}
+									active={index === activeWordIndex}
+									correct={correctWordsArray[index]}
+								/>;
+							})}
+						</Text>}
 				</TextAreaWrapper>
 				<InfoPanelWrapper>
 					<ButtonWrapper>
@@ -285,14 +213,13 @@ const App = () => {
 					ref={inputRef}
 					disabled={!isInputActive}
 					value={userInput}
-					maximum-scale="1"
 					onChange={(e) => proceesInput(e.target.value)}
 				/>
-				<label style={{display: 'flex', justifyContent: 'center', fontSize: '80%', margin: '8px'}}>
+				<BlindMode selectedWordCount={selectedWordCount}>
 					<input id="checkbox" onChange={handleChangeMode} type="checkbox"/>
 					<FontAwesomeIcon style={{fontSize: '12px', margin: '2.7px 2.5px 0px 0px'}} icon={faEyeSlash}/> Blind
 					mode
-				</label>
+				</BlindMode>
 				<Footer/>
 			</Wrapper>
 		</>
