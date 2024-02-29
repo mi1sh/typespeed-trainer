@@ -9,10 +9,10 @@ export const Wrapper = styled.div`
 `;
 
 export const Title = styled.h1`
-	font-family: "BigBlueTerm437 Nerd Font Mono", serif;
-	font-size: 4em;
+	font-family: "Press Start 2P", system-ui;
+	font-size: 3.5em;
 	position: relative;
-	margin: 1.5em 0em 0.8em 0em;
+	margin: 2em 0em 0.8em 0em;
 	&::after {
 		content: '';
 		position: absolute;
@@ -33,10 +33,12 @@ export const Title = styled.h1`
 	}
 `
 
-export const BlindMode = styled.label`
+export const BlindMode = styled.label.attrs(props => ({
+	selectedWordCount: props.selectedWordCount,
+}))`
 	display: flex;
 	justify-content: center;
-	font-size: 80%;
+	font-size: 0.7em;
 	padding: 8px; 
 	@media screen and (max-width: 430px) {
 		${props => props.selectedWordCount ===  150 && `
@@ -68,9 +70,11 @@ export const TextAreaWrapper = styled.div`
 	word-wrap: break-word;
 `;
 
-export const Text = styled.p`
+export const Text = styled.p.attrs(props => ({
+	selectedWordCount: props.selectedWordCount,
+}))`
 	overflow: hidden;
-	font-family: "Hack", serif;
+	font-family: "hack", sans-serif;
 	min-width: 25vw;
 	max-width: 800px;
 	max-height: 80vh;
@@ -110,6 +114,7 @@ export const InfoPanelWrapper = styled.div`
 	@media screen and (max-width: 430px) {
 		font-size: 0.9em;
 	}
+	font-family: "hack", sans-serif;
 	margin: 0.4em 0em 1em 0em;
 	display: flex;
 	flex-flow: row wrap;
@@ -128,10 +133,12 @@ export const TextButton = styled.button`
 		padding: 0.6em;
 		font-size: 0.8em;
 	}
+	font-family: "hack", sans-serif;
+	font-size: 1em;
 	background: none !important;
 	border: none;
 	margin: 0.4em;
-	font-size: 1em;
+	
 	color: #377c6d;
 	cursor: pointer;
 

@@ -204,7 +204,7 @@ const App = () => {
 							}}>(R)</span></TextButton>
 					</ButtonWrapper>
 					<ButtonWrapper>
-						<p style={{color: '#377c6d', float: 'right', paddingRight: '3em', fontSize: '0.8em'}}>Best
+						<p style={{color: '#377c6d', float: 'right', paddingRight: '3em', fontSize: '1em'}}>Best
 							record: {bestRecord} WPM</p>
 					</ButtonWrapper>
 				</InfoPanelWrapper>
@@ -217,7 +217,7 @@ const App = () => {
 				/>
 				<BlindMode selectedWordCount={selectedWordCount}>
 					<input id="checkbox" onChange={handleChangeMode} type="checkbox"/>
-					<FontAwesomeIcon style={{fontSize: '12px', margin: '2.7px 2.5px 0px 0px'}} icon={faEyeSlash}/> Blind
+					<FontAwesomeIcon style={{fontSize: '12px', margin: '2px 5px 0px 0px'}} icon={faEyeSlash}/> Blind
 					mode
 				</BlindMode>
 				<Footer/>
