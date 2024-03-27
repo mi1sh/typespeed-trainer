@@ -1,22 +1,19 @@
-import './App.css';
+import './index.css';
 import {useEffect, useRef, useState} from 'react';
+import {TypeArea} from './components/TypeArea/TypeArea.jsx';
+import {InfoPanel} from './components/Timer/InfoPanel.jsx';
+import {ControlPanel} from './components/ControlPanel/ControlPanel.jsx';
 import Word from './components/Word/Word.jsx';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faArrowsRotate, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Footer from './components/Footer/Footer.jsx';
-import Timer from './components/Timer/Timer.jsx';
 import {
-	ButtonWrapper,
-	InfoPanelWrapper,
 	TextAreaWrapper,
-	TextButton,
-	TypeArea,
 	Wrapper,
 	Text,
-	Title, BlindMode
+	Title,
 } from './App.styles.js';
 import SquareLoader from 'react-spinners/SquareLoader';
+import PropTypes from 'prop-types';
 
 const App = () => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -50,22 +47,6 @@ const App = () => {
 		fetchRandomWords();
 	}, [selectedWordCount]);
 
-	useEffect(() => {
-		const handleKeyDown = (e) => {
-			if (e.key === 'r' || e.key === 'R') {
-				if (document.activeElement !== inputRef.current) {
-					handleRefreshWords();
-				}
-			}
-		};
-
-		document.addEventListener('keydown', handleKeyDown);
-
-		return () => {
-			document.removeEventListener('keydown', handleKeyDown);
-		};
-	}, []);
-
 	const fetchRandomWords = async () => {
 		setIsLoading(true);
 		try {
@@ -92,16 +73,6 @@ const App = () => {
 		}
 	};
 
-	const handleWordCountChange = (count) => {
-		setSelectedWordCount(count);
-		localStorage.setItem('selectedWordCount', count.toString());
-	};
-
-	const handleChangeMode = () => {
-		const inputType = inputRef.current.type;
-		inputRef.current.type = inputType === 'text' ? 'password' : 'text';
-	};
-
 	const handleRefreshWords = () => {
 		fetchRandomWords();
 		setStartCounting(false);
@@ -115,7 +86,7 @@ const App = () => {
 		setBestRecord(savedBestRecord ? parseFloat(savedBestRecord) : 0);
 	};
 
-	const proceesInput = (value) => {
+	const processInput = (value) => {
 		if (activeWordIndex === randomWords.length) {
 			// стоп
 			return;
@@ -154,7 +125,7 @@ const App = () => {
 		<>
 			<Wrapper>
 				<Title>typespeed - test</Title>
-				<Timer
+				<InfoPanel
 					startCounting={startCounting}
 					correctWordsArray={correctWordsArray}
 					setUserInput={setUserInput}
@@ -185,45 +156,16 @@ const App = () => {
 							})}
 						</Text>}
 				</TextAreaWrapper>
-				<InfoPanelWrapper>
-					<ButtonWrapper>
-						<TextButton className={selectedWordCount === 50 ? 'activeBtn' : ''}
-									onClick={() => handleWordCountChange(50)}>50</TextButton>
-						<TextButton className={selectedWordCount === 100 ? 'activeBtn' : ''}
-									onClick={() => handleWordCountChange(100)}>100</TextButton>
-						<TextButton className={selectedWordCount === 150 ? 'activeBtn' : ''}
-									onClick={() => handleWordCountChange(150)}>150</TextButton>
-					</ButtonWrapper>
-					<ButtonWrapper>
-						<TextButton className={'refreshBtn'} onClick={() => handleRefreshWords()}><FontAwesomeIcon
-							style={{paddingRight: '3px', marginLeft: '-3px'}} icon={faArrowsRotate}/>Refresh<span
-							style={{
-								fontSize: '0.7em',
-								position: 'absolute',
-								padding: '0.4em 0em 0em 0.15em'
-							}}>(R)</span></TextButton>
-					</ButtonWrapper>
-					<ButtonWrapper>
-						<p style={{color: '#377c6d', float: 'right', paddingRight: '3em', fontSize: '1em'}}>Best
-							record: {bestRecord} WPM</p>
-					</ButtonWrapper>
-				</InfoPanelWrapper>
-				<TypeArea
-					type="text"
-					ref={inputRef}
-					disabled={!isInputActive}
-					value={userInput}
-					onChange={(e) => proceesInput(e.target.value)}
-				/>
-				<BlindMode selectedWordCount={selectedWordCount}>
-					<input id="checkbox" onChange={handleChangeMode} type="checkbox"/>
-					<FontAwesomeIcon style={{fontSize: '12px', margin: '2px 5px 0px 0px'}} icon={faEyeSlash}/> Blind
-					mode
-				</BlindMode>
+				<ControlPanel handleRefreshWords={handleRefreshWords} setSelectedWordCount={setSelectedWordCount}/>
+				<TypeArea inputRef={inputRef} isInputActive={isInputActive} userInput={userInput} selectedWordCount={selectedWordCount} processInput={processInput} handleRefreshWords={handleRefreshWords}/>
 				<Footer/>
 			</Wrapper>
 		</>
 	);
 };
+
+App.propTypes = {
+	selectedWordCount: PropTypes.number
+}
 
 export default App;

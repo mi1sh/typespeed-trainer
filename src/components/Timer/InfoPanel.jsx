@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {TimerWrapper} from './Timer.styles.js';
+import React, {useEffect} from 'react';
+import {InfoWrapper} from './InfoPanel.styles.js';
+import PropTypes from 'prop-types';
 
-const Timer = (props) => {
-	let {startCounting, correctWordsArray, setUserInput, setIsInputActive, timeElapsed, setTimeElapsed, setStartCounting, calculateSpeed, updateBestRecord} = props;
+export const InfoPanel = ({startCounting, correctWordsArray, setUserInput, setIsInputActive, timeElapsed, setTimeElapsed, setStartCounting, calculateSpeed, updateBestRecord}) => {
 
 	useEffect(() => {
 		let timerId;
@@ -31,12 +31,22 @@ const Timer = (props) => {
 	};
 
 	return (
-		<TimerWrapper>
+		<InfoWrapper>
 			<p className={'counter'}>(Timer: {timeElapsed}</p>
 			<p className={'counter'}>Speed: {calculateSpeed()} WPM</p>
 			<p className={'counter'}>Accuracy: {calculateAccuracy()}%)</p>
-		</TimerWrapper>
+		</InfoWrapper>
 	);
 }
 
-export default Timer;
+InfoPanel.propTypes = {
+	startCounting: PropTypes.bool,
+	correctWordsArray: PropTypes.array,
+	timeElapsed: PropTypes.number,
+	setUserInput: PropTypes.func,
+	setIsInputActive: PropTypes.func,
+	setTimeElapsed: PropTypes.func,
+	setStartCounting: PropTypes.func,
+	calculateSpeed: PropTypes.func,
+	updateBestRecord: PropTypes.func
+}

@@ -33,23 +33,6 @@ export const Title = styled.h1`
 	}
 `
 
-export const BlindMode = styled.label.attrs(props => ({
-	selectedWordCount: props.selectedWordCount,
-}))`
-	display: flex;
-	justify-content: center;
-	font-size: 0.7em;
-	padding: 8px; 
-	@media screen and (max-width: 430px) {
-		${props => props.selectedWordCount ===  150 && `
-    		margin-bottom: 5em !important;
-  		`}
-		${props => props.selectedWordCount ===  100 && `
-    		margin-bottom: 5em !important;
-  		`}
-	}
-`
-
 export const TextAreaWrapper = styled.div`
 	@media screen and (max-width: 430px) {
 		min-width: 94vw;
@@ -76,6 +59,7 @@ export const Text = styled.p.attrs(props => ({
 	overflow: hidden;
 	font-family: "hack", sans-serif;
 	min-width: 25vw;
+	margin: auto;
 	max-width: 800px;
 	max-height: 80vh;
 	min-height: 8vh;
@@ -86,72 +70,3 @@ export const Text = styled.p.attrs(props => ({
   	`}
 `;
 
-
-export const TypeArea = styled.input`
-	border: 2px solid #235347FF;
-	border-radius: 4px;
-	margin-top: 2em;
-	min-width: 160px;
-	padding: 0.25em;
-	width: 15vw;
-	font-size: 16px;
-	height: 20px;
-	text-align: center;
-	&:focus {
-		outline: #377c6d double 0.2em;
-		border-color: #235347FF;
-		box-shadow: 0 0 10px #377c6d;
-	}
-`;
-
-export const ButtonWrapper = styled.div`
-	width: calc(100% / 3 - 13px);
-	display: flex;
-	justify-content: center;
-`;
-
-export const InfoPanelWrapper = styled.div`
-	@media screen and (max-width: 430px) {
-		font-size: 0.9em;
-	}
-	font-family: "hack", sans-serif;
-	margin: 0.4em 0em 1em 0em;
-	display: flex;
-	flex-flow: row wrap;
-	width: 100%;
-	justify-content: space-between;
-
-	&:after {
-		width: calc(100% / 3 - 13px);
-		content: '';
-		display: table;
-	}
-`;
-
-export const TextButton = styled.button`
-	@media screen and (max-width: 430px) {
-		padding: 0.6em;
-		font-size: 0.8em;
-	}
-	font-family: "hack", sans-serif;
-	font-size: 1em;
-	background: none !important;
-	border: none;
-	margin: 0.4em;
-	
-	color: #377c6d;
-	cursor: pointer;
-
-	&:hover {
-		color: #235347;
-	}
-
-	&.activeBtn {
-		text-decoration: underline;
-		color: #235347;
-	}
-
-	&.refreshBtn {
-		margin: 0;
-	}
-`;
