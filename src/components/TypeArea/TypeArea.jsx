@@ -28,6 +28,7 @@ export const TypeArea = ({inputRef, isInputActive, userInput, selectedWordCount,
 
 	return (
 		<>
+			<span></span>
 			<TypeInput
 				type="text"
 				ref={inputRef}

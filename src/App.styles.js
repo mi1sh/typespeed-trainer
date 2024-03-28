@@ -9,8 +9,11 @@ export const Wrapper = styled.div`
 `;
 
 export const Title = styled.h1`
+	@media screen and (max-width: 900px) {
+		font-size: 4.5vw;
+	}
 	font-family: "Press Start 2P", system-ui;
-	font-size: 3.5em;
+	font-size: 2.9vw;
 	position: relative;
 	margin: 2em 0em 0.8em 0em;
 	&::after {

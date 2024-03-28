@@ -10,12 +10,14 @@ import {
 	TextAreaWrapper,
 	Wrapper,
 	Text,
-	Title,
+	Title
 } from './App.styles.js';
 import SquareLoader from 'react-spinners/SquareLoader';
 import PropTypes from 'prop-types';
+import {NameModal} from './components/NameModal/NameModal.jsx';
 
 const App = () => {
+	const [showModal, setShowModal] = useState(true);
 	const [isLoading, setIsLoading] = useState(false);
 	const [randomWords, setRandomWords] = useState([]);
 	const [userInput, setUserInput] = useState('');
@@ -33,11 +35,12 @@ const App = () => {
 		return savedBestRecord ? parseFloat(savedBestRecord) : 0;
 	});
 
-	if(navigator.userAgent.indexOf('iPhone') > -1 )
-	{
+	const userName = localStorage.getItem('userName');
+
+	if (navigator.userAgent.indexOf('iPhone') > -1) {
 		document
-			.querySelector("[name=viewport]")
-			.setAttribute("content","width=device-width, initial-scale=1, maximum-scale=1");
+			.querySelector('[name=viewport]')
+			.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1');
 	}
 
 	const inputRef = useRef();
@@ -156,8 +159,14 @@ const App = () => {
 							})}
 						</Text>}
 				</TextAreaWrapper>
-				<ControlPanel handleRefreshWords={handleRefreshWords} setSelectedWordCount={setSelectedWordCount}/>
-				<TypeArea inputRef={inputRef} isInputActive={isInputActive} userInput={userInput} selectedWordCount={selectedWordCount} processInput={processInput} handleRefreshWords={handleRefreshWords}/>
+				{showModal ? (
+					<NameModal userName={userName} setShowModal={setShowModal}/>
+				) : (
+					<>
+						<ControlPanel handleRefreshWords={handleRefreshWords} setSelectedWordCount={setSelectedWordCount}/>
+						<TypeArea inputRef={inputRef} isInputActive={isInputActive} userInput={userInput} selectedWordCount={selectedWordCount} processInput={processInput} handleRefreshWords={handleRefreshWords}/>
+					</>
+				)}
 				<Footer/>
 			</Wrapper>
 		</>
@@ -166,6 +175,6 @@ const App = () => {
 
 App.propTypes = {
 	selectedWordCount: PropTypes.number
-}
+};
 
 export default App;
