@@ -1,7 +1,7 @@
 import './index.css';
 import {useEffect, useRef, useState} from 'react';
 import {TypeArea} from './components/TypeArea/TypeArea.jsx';
-import {InfoPanel} from './components/Timer/InfoPanel.jsx';
+import {InfoPanel} from './components/InfoPanel/InfoPanel.jsx';
 import {ControlPanel} from './components/ControlPanel/ControlPanel.jsx';
 import Word from './components/Word/Word.jsx';
 import axios from 'axios';
@@ -163,8 +163,8 @@ const App = () => {
 					<NameModal userName={userName} setShowModal={setShowModal}/>
 				) : (
 					<>
-						<ControlPanel handleRefreshWords={handleRefreshWords} setSelectedWordCount={setSelectedWordCount}/>
-						<TypeArea inputRef={inputRef} isInputActive={isInputActive} userInput={userInput} selectedWordCount={selectedWordCount} processInput={processInput} handleRefreshWords={handleRefreshWords}/>
+						<ControlPanel handleRefreshWords={handleRefreshWords} setSelectedWordCount={setSelectedWordCount} bestRecord={bestRecord} selectedWordCount={selectedWordCount}/>
+						<TypeArea userName={userName} inputRef={inputRef} isInputActive={isInputActive} userInput={userInput} selectedWordCount={selectedWordCount} processInput={processInput} handleRefreshWords={handleRefreshWords}/>
 					</>
 				)}
 				<Footer/>

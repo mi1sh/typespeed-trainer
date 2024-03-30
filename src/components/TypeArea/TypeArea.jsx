@@ -4,7 +4,7 @@ import {BlindMode, TypeInput} from './TypeArea.styles.js';
 import PropTypes from 'prop-types';
 import {useEffect} from 'react';
 
-export const TypeArea = ({inputRef, isInputActive, userInput, selectedWordCount, processInput, handleRefreshWords}) => {
+export const TypeArea = ({inputRef, isInputActive, userInput, selectedWordCount, processInput, handleRefreshWords, userName}) => {
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
@@ -28,7 +28,7 @@ export const TypeArea = ({inputRef, isInputActive, userInput, selectedWordCount,
 
 	return (
 		<>
-			<span></span>
+			<span style={{color: '#235347', fontSize: '0.6em', marginTop: '3em'}}>{userName}</span>
 			<TypeInput
 				type="text"
 				ref={inputRef}
@@ -53,4 +53,5 @@ TypeArea.propTypes = {
 	processInput: PropTypes.func,
 	handleChangeMode: PropTypes.func,
 	handleRefreshWords: PropTypes.func,
+	userName: PropTypes.string,
 }
