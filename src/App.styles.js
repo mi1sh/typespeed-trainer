@@ -49,6 +49,7 @@ export const TextAreaWrapper = styled.div`
 	max-height: 80vh;
 	min-height: 13vh;
 	height: 100%;
+	background-color: rgb(39, 44, 43) !important;
 	border: 4px solid rgb(35, 83, 71);
 	border-radius: 10px;
 	padding: 10px;

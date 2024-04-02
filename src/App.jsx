@@ -1,4 +1,5 @@
 import './index.css';
+import {TWallpaper} from '@twallpaper/react';
 import {useEffect, useRef, useState} from 'react';
 import {TypeArea} from './components/TypeArea/TypeArea.jsx';
 import {InfoPanel} from './components/InfoPanel/InfoPanel.jsx';
@@ -14,10 +15,15 @@ import {
 } from './App.styles.js';
 import SquareLoader from 'react-spinners/SquareLoader';
 import PropTypes from 'prop-types';
-import {NameModal} from './components/NameModal/NameModal.jsx';
+import {AuthModal} from './components/AuthModal/AuthModal.jsx';
+import {RatingTable} from './components/RatingTable/RatingTable.jsx';
+import {FooterWrapper} from './components/Footer/Footer.styles.js';
+import {TextButton} from './components/ControlPanel/ControlPanel.styles.js';
+import {auth} from './firebase.js';
 
 const App = () => {
-	const [showModal, setShowModal] = useState(true);
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [showModal, setShowModal] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [randomWords, setRandomWords] = useState([]);
 	const [userInput, setUserInput] = useState('');
@@ -35,8 +41,6 @@ const App = () => {
 		return savedBestRecord ? parseFloat(savedBestRecord) : 0;
 	});
 
-	const userName = localStorage.getItem('userName');
-
 	if (navigator.userAgent.indexOf('iPhone') > -1) {
 		document
 			.querySelector('[name=viewport]')
@@ -45,6 +49,19 @@ const App = () => {
 
 	const inputRef = useRef();
 	const minutes = timeElapsed / 60;
+
+	useEffect(() => {
+		console.log("Current isAuthenticated state:", isAuthenticated);
+	}, [isAuthenticated]);
+
+	useEffect(() => {
+		const unsubscribe = auth.onAuthStateChanged(user => {
+			console.log("Auth state changed:", user ? "Authenticated" : "Not authenticated");
+			setIsAuthenticated(!!user);
+		});
+
+		return () => unsubscribe();
+	}, []);
 
 	useEffect(() => {
 		fetchRandomWords();
@@ -61,7 +78,6 @@ const App = () => {
 		} finally {
 			setIsLoading(false);
 		}
-
 	};
 
 	const calculateSpeed = () => {
@@ -87,6 +103,15 @@ const App = () => {
 		// загрузка рекорда из localStorage
 		const savedBestRecord = localStorage.getItem('bestRecord');
 		setBestRecord(savedBestRecord ? parseFloat(savedBestRecord) : 0);
+	};
+
+	const signOut = () => {
+		auth.signOut().then(() => {
+			console.log("User signed out");
+			setIsAuthenticated(false);
+		}).catch((error) => {
+			console.error("Error logging out user:", error);
+		});
 	};
 
 	const processInput = (value) => {
@@ -126,6 +151,18 @@ const App = () => {
 
 	return (
 		<>
+			<TWallpaper options={{
+				colors: [
+					'#23312e',
+					'#2c3d38',
+					'#272f2f',
+					'#2c3d38',
+					'#23312e',
+					'#272f2f'
+				],
+				fps: 13,
+				tails: 80
+			}}/>
 			<Wrapper>
 				<Title>typespeed - test</Title>
 				<InfoPanel
@@ -160,11 +197,26 @@ const App = () => {
 						</Text>}
 				</TextAreaWrapper>
 				{showModal ? (
-					<NameModal userName={userName} setShowModal={setShowModal}/>
+					<FooterWrapper style={{ bottom: '3.5em' }}>
+						<TextButton onClick={() => setShowModal(false)}>Home</TextButton>
+					</FooterWrapper>
+				) : !isAuthenticated && (
+					<FooterWrapper style={{ bottom: '3.5em' }}>
+						<TextButton onClick={() => setShowModal(true)}>SignUp | SignIn</TextButton>
+					</FooterWrapper>
+				)}
+				{isAuthenticated && (
+					<FooterWrapper style={{ bottom: '3.5em' }}>
+						<TextButton onClick={signOut}>Sign Out</TextButton>
+					</FooterWrapper>
+				)}
+				{showModal ? (
+					<AuthModal setIsAuthenticated={setIsAuthenticated} setShowModal={setShowModal} isAuthenticated={isAuthenticated}/>
 				) : (
 					<>
 						<ControlPanel handleRefreshWords={handleRefreshWords} setSelectedWordCount={setSelectedWordCount} bestRecord={bestRecord} selectedWordCount={selectedWordCount}/>
-						<TypeArea userName={userName} inputRef={inputRef} isInputActive={isInputActive} userInput={userInput} selectedWordCount={selectedWordCount} processInput={processInput} handleRefreshWords={handleRefreshWords}/>
+						<TypeArea inputRef={inputRef} isInputActive={isInputActive} userInput={userInput} selectedWordCount={selectedWordCount} processInput={processInput} handleRefreshWords={handleRefreshWords}/>
+						<RatingTable/>
 					</>
 				)}
 				<Footer/>

@@ -4,7 +4,6 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #292b2f !important;
   user-select: none;
 
   text-rendering: optimizeLegibility;
@@ -28,6 +27,10 @@
 
 .loader {
   margin-top: 2.2em;
+}
+
+input{
+  background-color: rgb(39, 44, 43) !important;
 }
 
 input[type=checkbox] {
@@ -84,10 +87,6 @@ input[type=checkbox] {
   &:hover {
     transform: scale(1.3)
   }
-}
-
-html {
-  background-color: #292b2f !important;
 }
 
 table {

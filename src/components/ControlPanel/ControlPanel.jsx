@@ -9,7 +9,6 @@ export const ControlPanel = ({selectedWordCount, handleRefreshWords, bestRecord,
 		localStorage.setItem('selectedWordCount', count.toString());
 	};
 
-
 	return (
 		<ControlPanelWrapper>
 			<ButtonWrapper>
