@@ -34,6 +34,7 @@ export const TypeArea = ({inputRef, isInputActive, userInput, selectedWordCount,
 				disabled={!isInputActive}
 				value={userInput}
 				onChange={(e) => processInput(e.target.value)}
+				autocomplete="new-password"
 			/>
 			<BlindMode selectedWordCount={selectedWordCount}>
 				<input id="checkbox" onChange={handleChangeMode} type="checkbox"/>
