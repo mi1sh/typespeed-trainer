@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const TypeInput = styled.input`
 	border: 2px solid #235347FF;
 	border-radius: 4px;
-	margin-top: 1.5em;
 	min-width: 160px;
+	margin-top: 0.3em;
 	padding: 0.25em;
 	width: 15vw;
 	font-size: 16px;

@@ -22,6 +22,7 @@ import {TextButton} from './components/ControlPanel/ControlPanel.styles.js';
 import {auth} from './firebase.js';
 
 const App = () => {
+	const [displayName, setDisplayName] = useState('');
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [showModal, setShowModal] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -58,6 +59,12 @@ const App = () => {
 		const unsubscribe = auth.onAuthStateChanged(user => {
 			console.log("Auth state changed:", user ? "Authenticated" : "Not authenticated");
 			setIsAuthenticated(!!user);
+
+			if (user) {
+				setDisplayName(user.displayName || 'Anonymous');
+			} else {
+				setDisplayName('');
+			}
 		});
 
 		return () => unsubscribe();
@@ -211,11 +218,11 @@ const App = () => {
 					</FooterWrapper>
 				)}
 				{showModal ? (
-					<AuthModal setIsAuthenticated={setIsAuthenticated} setShowModal={setShowModal} isAuthenticated={isAuthenticated}/>
+					<AuthModal displayName={displayName} setDisplayName={setDisplayName} setIsAuthenticated={setIsAuthenticated} setShowModal={setShowModal} isAuthenticated={isAuthenticated}/>
 				) : (
 					<>
 						<ControlPanel handleRefreshWords={handleRefreshWords} setSelectedWordCount={setSelectedWordCount} bestRecord={bestRecord} selectedWordCount={selectedWordCount}/>
-						<TypeArea inputRef={inputRef} isInputActive={isInputActive} userInput={userInput} selectedWordCount={selectedWordCount} processInput={processInput} handleRefreshWords={handleRefreshWords}/>
+						<TypeArea displayName={displayName} inputRef={inputRef} isInputActive={isInputActive} userInput={userInput} selectedWordCount={selectedWordCount} processInput={processInput} handleRefreshWords={handleRefreshWords}/>
 						<RatingTable/>
 					</>
 				)}

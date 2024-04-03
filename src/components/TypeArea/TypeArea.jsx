@@ -3,8 +3,9 @@ import {faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {BlindMode, TypeInput} from './TypeArea.styles.js';
 import PropTypes from 'prop-types';
 import {useEffect} from 'react';
+import firebase from 'firebase/compat/app';
 
-export const TypeArea = ({inputRef, isInputActive, userInput, selectedWordCount, processInput, handleRefreshWords}) => {
+export const TypeArea = ({inputRef, isInputActive, userInput, selectedWordCount, processInput, handleRefreshWords, displayName}) => {
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
@@ -28,6 +29,9 @@ export const TypeArea = ({inputRef, isInputActive, userInput, selectedWordCount,
 
 	return (
 		<>
+			{displayName && (
+				<span style={{color: '#235347', fontSize: '0.7em'}}>{displayName}</span>
+			)}
 			<TypeInput
 				type="text"
 				ref={inputRef}

@@ -5,10 +5,9 @@ import {auth} from '../../firebase.js';
 import {useState} from 'react';
 import firebase from 'firebase/compat/app';
 
-export const AuthModal = ({setShowModal, setIsAuthenticated}) => {
+export const AuthModal = ({setShowModal, setIsAuthenticated, displayName, setDisplayName}) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [displayName, setDisplayName] = useState('');
 	const [isRegistering, setIsRegistering] = useState(false);
 
 

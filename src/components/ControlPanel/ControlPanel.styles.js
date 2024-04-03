@@ -11,7 +11,7 @@ export const ControlPanelWrapper = styled.div`
 		font-size: 0.9em;
 	}
 	font-family: "hack", sans-serif;
-	margin: 0.4em 0em 1em 0em;
+	margin: 0.4em 0em 2em 0em;
 	display: flex;
 	flex-flow: row wrap;
 	width: 100%;
