@@ -1,9 +1,24 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faArrowsRotate} from '@fortawesome/free-solid-svg-icons';
 import {ButtonWrapper, ControlPanelWrapper, TextButton} from './ControlPanel.styles.js';
+import {auth} from '../../firebase.js';
+import {useEffect} from 'react';
+import firebase from 'firebase/compat/app';
 
-export const ControlPanel = ({selectedWordCount, handleRefreshWords, bestRecord, setSelectedWordCount}) => {
+export const ControlPanel = ({selectedWordCount, handleRefreshWords, bestRecord, setSelectedWordCount, isAuthenticated, bestAuthRecord, setBestAuthRecord}) => {
 
+	useEffect(() => {
+		const currentUser = auth.currentUser;
+		if (currentUser) {
+			const userRef = firebase.database().ref('users/' + currentUser.uid);
+			userRef.once('value', snapshot => {
+				const userData = snapshot.val();
+				if (userData && userData.bestRecord) {
+					setBestAuthRecord(userData.bestRecord);
+				}
+			});
+		}
+	}, [isAuthenticated, bestAuthRecord]);
 	const handleWordCountChange = (count) => {
 		setSelectedWordCount(count);
 		localStorage.setItem('selectedWordCount', count.toString());
@@ -29,8 +44,8 @@ export const ControlPanel = ({selectedWordCount, handleRefreshWords, bestRecord,
 					}}>(R)</span></TextButton>
 			</ButtonWrapper>
 			<ButtonWrapper>
-				<p style={{color: '#377c6d', float: 'right', paddingRight: '3em', fontSize: '1em'}}>Best
-					record: {bestRecord} WPM</p>
+				<p style={{color: '#377c6d', float: 'right', paddingRight: '3em', fontSize: '1em'}}>{isAuthenticated ? `Best
+					record: ${bestAuthRecord}` : `Best record: ${bestRecord}`} WPM</p>
 			</ButtonWrapper>
 		</ControlPanelWrapper>
 	);

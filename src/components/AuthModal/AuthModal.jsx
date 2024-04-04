@@ -4,12 +4,12 @@ import {Form} from './AuthModal.styles.js';
 import {auth} from '../../firebase.js';
 import {useState} from 'react';
 import firebase from 'firebase/compat/app';
+import {Bounce, toast} from 'react-toastify';
 
-export const AuthModal = ({setShowModal, setIsAuthenticated, displayName, setDisplayName}) => {
+export const AuthModal = ({setShowModal, setIsAuthenticated, updateBestRecord, bestAuthRecord, displayName, setDisplayName, updateDisplayName}) => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [isRegistering, setIsRegistering] = useState(false);
-
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -18,6 +18,92 @@ export const AuthModal = ({setShowModal, setIsAuthenticated, displayName, setDis
 		} else {
 			loginUser(email, password);
 		}
+	};
+
+	const registerUser = (email, password, displayName) => {
+		console.log("Registering user...");
+		auth.createUserWithEmailAndPassword(email, password)
+			.then((userCredential) => {
+				updateDisplayName(displayName);
+				userCredential.user.updateProfile({
+					displayName: displayName
+				}).then(() => {
+					saveUsername(displayName, userCredential.user.uid);
+					toast.success(`User registered: ${userCredential.user.displayName}`, {
+						position: "top-center",
+						autoClose: 2500,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						theme: "colored",
+						transition: Bounce,
+					});
+					console.log("User profile updated with displayName:", displayName);
+					updateBestRecord(0);
+					setIsAuthenticated(true);
+					setShowModal(false);
+				}).catch((error) => {
+					console.error("Error updating user profile:", error);
+				});
+			})
+			.catch((error) => {
+				if (error.code === 'auth/email-already-in-use') {
+					toast.error('The email address is already used by another account', {
+						position: "top-center",
+						autoClose: 3000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						theme: "colored",
+						transition: Bounce,
+					});
+				} else {
+					console.error("Error registering user:", error);
+				}
+			});
+	};
+
+	const loginUser = (email, password) => {
+		console.log('Logging in user...');
+		auth.signInWithEmailAndPassword(email, password)
+			.then((userCredential) => {
+				updateDisplayName(userCredential.user.displayName);
+				setDisplayName(userCredential.user.displayName);
+				updateBestRecord(parseFloat(bestAuthRecord));
+				toast.success(`User logged in: ${userCredential.user.displayName}`, {
+					position: "top-center",
+					autoClose: 2500,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					theme: "colored",
+					transition: Bounce,
+				});
+				setIsAuthenticated(true);
+				setShowModal(false);
+			})
+			.catch((error) => {
+				if (error.code === 'auth/invalid-credential') {
+					toast.error('The email or password incorrect, please check and try again', {
+						position: "top-center",
+						autoClose: 3000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						theme: "colored",
+						transition: Bounce,
+					});
+				}
+				console.error('Error logging in user:', error);
+			});
 	};
 
 	const saveUsername = (username, userId) => {
@@ -31,49 +117,11 @@ export const AuthModal = ({setShowModal, setIsAuthenticated, displayName, setDis
 		});
 	};
 
-	const registerUser = (email, password, displayName) => {
-		console.log("Registering user...");
-		auth.createUserWithEmailAndPassword(email, password)
-			.then((userCredential) => {
-				console.log("User registered:", userCredential.user);
-				userCredential.user.updateProfile({
-					displayName: displayName
-				}).then(() => {
-					console.log("User profile updated with displayName:", displayName);
-					setIsAuthenticated(true);
-					setShowModal(false);
-					saveUsername(displayName, userCredential.user.uid);
-				}).catch((error) => {
-					console.error("Error updating user profile:", error);
-				});
-			})
-			.catch((error) => {
-				if (error.code === 'auth/email-already-in-use') {
-					alert('The email address is already used by another account');
-				} else {
-					console.error("Error registering user:", error);
-				}
-			});
-	};
-
-	const loginUser = (email, password) => {
-		console.log('Logging in user...');
-		auth.signInWithEmailAndPassword(email, password)
-			.then((userCredential) => {
-				console.log('User logged in:', userCredential.user);
-				setIsAuthenticated(true);
-				setShowModal(false);
-			})
-			.catch((error) => {
-				console.error('Error logging in user:', error);
-			});
-	};
-
 	return (
 		<>
 			<Form onSubmit={handleSubmit}>
 				{isRegistering && (
-					<TypeInput maxLength="35" minLength="2" type="text" placeholder="Enter your username" value={displayName} onChange={(event) => setDisplayName(event.target.value)}  autocomplete="new-password"/>
+					<TypeInput maxLength="35" minLength="2" type="text" placeholder="Enter your username" value={displayName} onChange={(event) => setDisplayName(event.target.value)} autoComplete="new-password"/>
 				)}
 				<TypeInput style={{marginTop: '0.8em'}} maxLength="35" minLength="10" type="email" placeholder="Enter your email" value={email} onChange={(event) => setEmail(event.target.value)}/>
 				<TypeInput style={{marginTop: '0.8em'}} maxLength="20" minLength="6" type="password" placeholder="Enter your password" value={password} onChange={(event) => setPassword(event.target.value)}/>

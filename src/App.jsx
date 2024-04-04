@@ -4,6 +4,8 @@ import {useEffect, useRef, useState} from 'react';
 import {TypeArea} from './components/TypeArea/TypeArea.jsx';
 import {InfoPanel} from './components/InfoPanel/InfoPanel.jsx';
 import {ControlPanel} from './components/ControlPanel/ControlPanel.jsx';
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import Word from './components/Word/Word.jsx';
 import axios from 'axios';
 import Footer from './components/Footer/Footer.jsx';
@@ -20,8 +22,10 @@ import {RatingTable} from './components/RatingTable/RatingTable.jsx';
 import {FooterWrapper} from './components/Footer/Footer.styles.js';
 import {TextButton} from './components/ControlPanel/ControlPanel.styles.js';
 import {auth} from './firebase.js';
+import firebase from 'firebase/compat/app';
 
 const App = () => {
+	const [bestAuthRecord, setBestAuthRecord] = useState(0);
 	const [displayName, setDisplayName] = useState('');
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [showModal, setShowModal] = useState(false);
@@ -42,6 +46,10 @@ const App = () => {
 		return savedBestRecord ? parseFloat(savedBestRecord) : 0;
 	});
 
+	const updateDisplayName = (newDisplayName) => {
+		setDisplayName(newDisplayName);
+	};
+
 	if (navigator.userAgent.indexOf('iPhone') > -1) {
 		document
 			.querySelector('[name=viewport]')
@@ -52,19 +60,28 @@ const App = () => {
 	const minutes = timeElapsed / 60;
 
 	useEffect(() => {
-		console.log("Current isAuthenticated state:", isAuthenticated);
-	}, [isAuthenticated]);
+		if (isAuthenticated) {
+			auth.onAuthStateChanged(user => {
+				const userRef = firebase.database().ref('users/' + user.uid);
+				userRef.once('value').then(snapshot => {
+					const userData = snapshot.val();
+					if (userData && userData.bestRecord) {
+						setBestAuthRecord(parseFloat(userData.bestRecord));
+					}
+				});
+			})
+		}
+	}, [bestAuthRecord, isAuthenticated]);
 
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged(user => {
-			console.log("Auth state changed:", user ? "Authenticated" : "Not authenticated");
-			setIsAuthenticated(!!user);
-
 			if (user) {
-				setDisplayName(user.displayName || 'Anonymous');
+				setDisplayName(user.displayName);
 			} else {
 				setDisplayName('');
 			}
+			console.log('Auth state changed:', user ? 'Authenticated' : 'Not authenticated');
+			setIsAuthenticated(!!user);
 		});
 
 		return () => unsubscribe();
@@ -91,11 +108,31 @@ const App = () => {
 		return ((correctWordsArray.filter(Boolean).length / minutes) || 0).toFixed(1);
 	};
 
+	const saveBestRecord = (newRecord) => {
+		const userId = auth.currentUser.uid;
+		const userRef = firebase.database().ref('users/' + userId);
+		userRef.update({
+			bestRecord: newRecord
+		}).then(() => {
+			console.log('Record saved:', newRecord);
+		}).catch((error) => {
+			console.error('Error saving best record:', error);
+		});
+	};
+
 	const updateBestRecord = (newRecord) => {
-		if (newRecord > bestRecord) {
-			setBestRecord(newRecord);
-			// cохранение рекорда в localStorage
-			localStorage.setItem('bestRecord', newRecord.toString());
+		if (isAuthenticated) {
+			if (newRecord > bestAuthRecord) {
+				setBestAuthRecord(newRecord);
+				saveBestRecord(newRecord);
+			} else {
+				console.log('Record error:', newRecord);
+			}
+		} else {
+			if (newRecord > bestRecord) {
+				setBestRecord(newRecord);
+				localStorage.setItem('bestRecord', newRecord.toString());
+			}
 		}
 	};
 
@@ -114,10 +151,10 @@ const App = () => {
 
 	const signOut = () => {
 		auth.signOut().then(() => {
-			console.log("User signed out");
+			console.log('User signed out');
 			setIsAuthenticated(false);
 		}).catch((error) => {
-			console.error("Error logging out user:", error);
+			console.error('Error logging out user:', error);
 		});
 	};
 
@@ -170,8 +207,21 @@ const App = () => {
 				fps: 13,
 				tails: 80
 			}}/>
+			<ToastContainer
+				position="top-center"
+				autoClose={2500}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="colored"
+				transition: Bounce
+			/>
 			<Wrapper>
-				<Title>typespeed - test</Title>
+				<Title selectedWordCount={selectedWordCount}>typespeed - test</Title>
 				<InfoPanel
 					startCounting={startCounting}
 					correctWordsArray={correctWordsArray}
@@ -204,24 +254,24 @@ const App = () => {
 						</Text>}
 				</TextAreaWrapper>
 				{showModal ? (
-					<FooterWrapper style={{ bottom: '3.5em' }}>
+					<FooterWrapper style={{bottom: '3.5em'}}>
 						<TextButton onClick={() => setShowModal(false)}>Home</TextButton>
 					</FooterWrapper>
 				) : !isAuthenticated && (
-					<FooterWrapper style={{ bottom: '3.5em' }}>
+					<FooterWrapper style={{bottom: '3.5em'}}>
 						<TextButton onClick={() => setShowModal(true)}>SignUp | SignIn</TextButton>
 					</FooterWrapper>
 				)}
 				{isAuthenticated && (
-					<FooterWrapper style={{ bottom: '3.5em' }}>
+					<FooterWrapper style={{bottom: '3.5em'}}>
 						<TextButton onClick={signOut}>Sign Out</TextButton>
 					</FooterWrapper>
 				)}
 				{showModal ? (
-					<AuthModal displayName={displayName} setDisplayName={setDisplayName} setIsAuthenticated={setIsAuthenticated} setShowModal={setShowModal} isAuthenticated={isAuthenticated}/>
+					<AuthModal updateDisplayName={updateDisplayName} bestAuthRecord={bestAuthRecord} updateBestRecord={updateBestRecord} displayName={displayName} setDisplayName={setDisplayName} setIsAuthenticated={setIsAuthenticated} setShowModal={setShowModal} isAuthenticated={isAuthenticated}/>
 				) : (
 					<>
-						<ControlPanel handleRefreshWords={handleRefreshWords} setSelectedWordCount={setSelectedWordCount} bestRecord={bestRecord} selectedWordCount={selectedWordCount}/>
+						<ControlPanel setBestAuthRecord={setBestAuthRecord} bestAuthRecord={bestAuthRecord} isAuthenticated={isAuthenticated} handleRefreshWords={handleRefreshWords} setSelectedWordCount={setSelectedWordCount} bestRecord={bestRecord} selectedWordCount={selectedWordCount}/>
 						<TypeArea displayName={displayName} inputRef={inputRef} isInputActive={isInputActive} userInput={userInput} selectedWordCount={selectedWordCount} processInput={processInput} handleRefreshWords={handleRefreshWords}/>
 						<RatingTable/>
 					</>

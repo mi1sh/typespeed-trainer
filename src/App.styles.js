@@ -8,32 +8,29 @@ export const Wrapper = styled.div`
 	width: 100%;
 `;
 
-export const Title = styled.h1`
+export const Title = styled.h1.attrs(props => ({
+	selectedWordCount: props.selectedWordCount,
+}))`
 	@media screen and (max-width: 900px) {
 		font-size: 4.5vw;
-	}
+	};
 	font-family: "Press Start 2P", system-ui;
 	font-size: 2.9vw;
 	position: relative;
-	margin: 2em 0em 0.8em 0em;
-	&::after {
-		content: '';
-		position: absolute;
-		left: 0;
-		z-index: -1;
-		bottom: 5px;
-		width: 100%;
-		height: 3px;
-		background-color: #235347;
-		display: block;
-	}
+	margin: 2.5em 0em 0.5em 0em;
 	@media screen and (max-width: 430px) {
 		&::after {
 			bottom: 1px !important;
 		}
 		font-size: 2.3em !important;
-		margin: 1em 0em 0.8em 0em !important;
+		margin: 1em 0em 0em 0em !important;
 	}
+	${props => props.selectedWordCount ===  100 && `
+    		margin: 1em 0em 0.35em 0em;
+  	`}
+	${props => props.selectedWordCount ===  150 && `
+    		margin: 0.3em 0em 0.2em 0em;
+  	`}
 `
 
 export const TextAreaWrapper = styled.div`

@@ -3,9 +3,9 @@ import {faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import {BlindMode, TypeInput} from './TypeArea.styles.js';
 import PropTypes from 'prop-types';
 import {useEffect} from 'react';
-import firebase from 'firebase/compat/app';
 
 export const TypeArea = ({inputRef, isInputActive, userInput, selectedWordCount, processInput, handleRefreshWords, displayName}) => {
+
 
 	useEffect(() => {
 		const handleKeyDown = (e) => {
@@ -38,7 +38,7 @@ export const TypeArea = ({inputRef, isInputActive, userInput, selectedWordCount,
 				disabled={!isInputActive}
 				value={userInput}
 				onChange={(e) => processInput(e.target.value)}
-				autocomplete="new-password"
+				autoComplete="new-password"
 			/>
 			<BlindMode selectedWordCount={selectedWordCount}>
 				<input id="checkbox" onChange={handleChangeMode} type="checkbox"/>
