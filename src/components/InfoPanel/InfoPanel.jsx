@@ -32,9 +32,9 @@ export const InfoPanel = ({startCounting, correctWordsArray, setUserInput, setIs
 
 	return (
 		<InfoWrapper>
-			<p className={'counter'}>(Timer: {timeElapsed}</p>
-			<p className={'counter'}>Speed: {calculateSpeed()} WPM</p>
-			<p className={'counter'}>Accuracy: {calculateAccuracy()}%)</p>
+			<p className={'infoPanelData'}>(Timer: {timeElapsed}</p>
+			<p className={'infoPanelData'}>Speed: {calculateSpeed()} WPM</p>
+			<p className={'infoPanelData'}>Accuracy: {calculateAccuracy()}%)</p>
 		</InfoWrapper>
 	);
 }

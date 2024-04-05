@@ -17,6 +17,7 @@ export const RatingTable = ({bestAuthRecord}) => {
 					users.push({username, bestRecord});
 				}
 			}
+			users.sort((a, b) => b.bestRecord - a.bestRecord);
 			setUserRecords(users);
 		});
 	}, [bestAuthRecord]);

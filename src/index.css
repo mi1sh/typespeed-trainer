@@ -11,6 +11,10 @@
 
 }
 
+html, body {
+
+}
+
 #root {
   margin: 0 auto;
   text-align: center;
@@ -50,10 +54,10 @@ input[type=checkbox] {
   accent-color: #377c6d;
 }
 
-.counter {
+.infoPanelData {
   display: inline-block;
   margin: 0vw 1vw 0vw 1vw;
-  font-family: "BigBlueTerm437 Nerd Font Mono", serif;
+  font-family: "Press Start 2P", system-ui;
   font-size: 1em;
 }
 
