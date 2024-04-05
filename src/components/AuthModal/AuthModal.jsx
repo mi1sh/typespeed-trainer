@@ -39,6 +39,7 @@ export const AuthModal = ({setShowModal, setIsAuthenticated, updateBestRecord, b
 						progress: undefined,
 						theme: "colored",
 						transition: Bounce,
+						className: "toastSuccess",
 					});
 					console.log("User profile updated with displayName:", displayName);
 					updateBestRecord(0);
@@ -60,6 +61,7 @@ export const AuthModal = ({setShowModal, setIsAuthenticated, updateBestRecord, b
 						progress: undefined,
 						theme: "colored",
 						transition: Bounce,
+						className: "toastError",
 					});
 				} else {
 					console.error("Error registering user:", error);
@@ -84,6 +86,7 @@ export const AuthModal = ({setShowModal, setIsAuthenticated, updateBestRecord, b
 					progress: undefined,
 					theme: "colored",
 					transition: Bounce,
+					className: "toastSuccess",
 				});
 				setIsAuthenticated(true);
 				setShowModal(false);
@@ -100,6 +103,7 @@ export const AuthModal = ({setShowModal, setIsAuthenticated, updateBestRecord, b
 						progress: undefined,
 						theme: "colored",
 						transition: Bounce,
+						className: "toastError",
 					});
 				}
 				console.error('Error logging in user:', error);

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 export const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -45,7 +44,6 @@ export const TextAreaWrapper = styled.div`
 	max-width: 800px;
 	max-height: 80vh;
 	min-height: 13vh;
-	height: 100%;
 	background-color: rgb(39, 44, 43) !important;
 	border: 4px solid rgb(35, 83, 71);
 	border-radius: 10px;
@@ -58,6 +56,7 @@ export const Text = styled.p.attrs(props => ({
 	selectedWordCount: props.selectedWordCount,
 }))`
 	overflow: hidden;
+	color: #6f8d86;
 	font-family: "hack", sans-serif;
 	min-width: 25vw;
 	margin: auto;
@@ -66,7 +65,7 @@ export const Text = styled.p.attrs(props => ({
 	min-height: 8vh;
 	word-wrap: break-word;
 	font-size: 100%;
-	${props => props.selectedWordCount ===  150 && `
+	${props => props.selectedWordCount === 150 && `
     		font-size:  85%;
   	`}
 `;

@@ -7,11 +7,20 @@
   user-select: none;
 
   text-rendering: optimizeLegibility;
+  overflow: hidden;
+
 }
 
 #root {
   margin: 0 auto;
   text-align: center;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 @media screen and (max-width: 430px) {
@@ -62,6 +71,7 @@ input[type=checkbox] {
 .active {
   font-weight: bold;
   position: relative;
+  color: rgba(255, 255, 255, 0.87)
 }
 
 .active::after {
@@ -89,20 +99,6 @@ input[type=checkbox] {
   }
 }
 
-table {
-  margin-top: 3.5em;
-}
-
-th {
-  font-size: 0.65em;
-  padding: 0em 1.2em 0em 1.2em;
-  color: #235347;
-}
-
-td {
-  font-size: 0.55em;
-}
-
 a {
   color: #377c6d;
 }
@@ -115,9 +111,10 @@ p {
   margin-bottom: auto;
 }
 
-body {
-  margin: 0;
-  display: flex;
-  min-width: 100%;
-  min-height: 100%;
+.toastSuccess {
+  --toastify-color-success: rgb(35, 83, 71);
+}
+
+.toastError {
+  --toastify-color-error: brown;
 }

@@ -197,12 +197,10 @@ const App = () => {
 		<>
 			<TWallpaper options={{
 				colors: [
-					'#23312e',
-					'#2c3d38',
 					'#272f2f',
 					'#2c3d38',
-					'#23312e',
-					'#272f2f'
+					'#272f2f',
+					'#283835'
 				],
 				fps: 13,
 				tails: 80
@@ -273,7 +271,7 @@ const App = () => {
 					<>
 						<ControlPanel setBestAuthRecord={setBestAuthRecord} bestAuthRecord={bestAuthRecord} isAuthenticated={isAuthenticated} handleRefreshWords={handleRefreshWords} setSelectedWordCount={setSelectedWordCount} bestRecord={bestRecord} selectedWordCount={selectedWordCount}/>
 						<TypeArea displayName={displayName} inputRef={inputRef} isInputActive={isInputActive} userInput={userInput} selectedWordCount={selectedWordCount} processInput={processInput} handleRefreshWords={handleRefreshWords}/>
-						<RatingTable/>
+						<RatingTable bestAuthRecord={bestAuthRecord}/>
 					</>
 				)}
 				<Footer/>
