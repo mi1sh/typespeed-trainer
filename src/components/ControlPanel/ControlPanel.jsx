@@ -1,6 +1,6 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faArrowsRotate} from '@fortawesome/free-solid-svg-icons';
-import {ButtonWrapper, ControlPanelWrapper, TextButton} from './ControlPanel.styles.js';
+import {BestRecord, ButtonWrapper, ControlPanelWrapper, TextButton} from './ControlPanel.styles.js';
 import {auth} from '../../firebase.js';
 import {useEffect} from 'react';
 import firebase from 'firebase/compat/app';
@@ -36,7 +36,7 @@ export const ControlPanel = ({selectedWordCount, handleRefreshWords, bestRecord,
 			</ButtonWrapper>
 			<ButtonWrapper>
 				<TextButton className={'refreshBtn'} onClick={() => handleRefreshWords()}><FontAwesomeIcon
-					style={{paddingRight: '3px', marginLeft: '-3px'}} icon={faArrowsRotate}/>Refresh<span
+					style={{paddingRight: '3px', marginLeft: '-1.5vw'}} icon={faArrowsRotate}/>Refresh<span
 					style={{
 						fontSize: '0.7em',
 						position: 'absolute',
@@ -44,8 +44,8 @@ export const ControlPanel = ({selectedWordCount, handleRefreshWords, bestRecord,
 					}}>(R)</span></TextButton>
 			</ButtonWrapper>
 			<ButtonWrapper>
-				<p style={{color: '#377c6d', float: 'right', paddingRight: '3em', fontSize: '1em'}}>{isAuthenticated ? `Best
-					record: ${bestAuthRecord}` : `Best record: ${bestRecord}`} WPM</p>
+				<BestRecord>{isAuthenticated ? `Best
+					record: ${bestAuthRecord}` : `Best record: ${bestRecord}`} WPM</BestRecord>
 			</ButtonWrapper>
 		</ControlPanelWrapper>
 	);

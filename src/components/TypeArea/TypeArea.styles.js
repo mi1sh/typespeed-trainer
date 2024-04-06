@@ -1,10 +1,20 @@
 import styled from 'styled-components';
 
+export const TypeAreaWrapper = styled.div`
+	margin-top: 2em;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: auto;
+`
+
 export const TypeInput = styled.input`
 	border: 2px solid #235347FF;
 	border-radius: 4px;
 	min-width: 160px;
-	margin-top: 0.3em;
+	margin: 0.2em;
 	padding: 0.25em;
 	width: 15vw;
 	font-size: 16px;
@@ -21,13 +31,4 @@ export const BlindMode = styled.label`
 	display: flex;
 	justify-content: center;
 	font-size: 0.7em;
-	padding: 8px;
-	@media screen and (max-width: 430px) {
-		${props => props.selectedWordCount ===  150 && `
-    		margin-bottom: 5em !important;
-  		`}
-		${props => props.selectedWordCount ===  100 && `
-    		margin-bottom: 5em !important;
-  		`}
-	}
 `;

@@ -1,6 +1,6 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faEyeSlash} from '@fortawesome/free-solid-svg-icons';
-import {BlindMode, TypeInput} from './TypeArea.styles.js';
+import {BlindMode, TypeAreaWrapper, TypeInput} from './TypeArea.styles.js';
 import PropTypes from 'prop-types';
 import {useEffect} from 'react';
 
@@ -28,9 +28,9 @@ export const TypeArea = ({inputRef, isInputActive, userInput, selectedWordCount,
 	};
 
 	return (
-		<>
+		<TypeAreaWrapper>
 			{displayName && (
-				<span style={{color: '#235347', fontSize: '0.7em'}}>{displayName}</span>
+				<span style={{color: '#235347', fontSize: '0.7em' }}>{displayName}</span>
 			)}
 			<TypeInput
 				type="text"
@@ -45,7 +45,7 @@ export const TypeArea = ({inputRef, isInputActive, userInput, selectedWordCount,
 				<FontAwesomeIcon style={{fontSize: '12px', margin: '2px 5px 0px 0px'}} icon={faEyeSlash}/> Blind
 				mode
 			</BlindMode>
-		</>
+		</TypeAreaWrapper>
 	);
 };
 

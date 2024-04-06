@@ -13,13 +13,13 @@ import {
 	TextAreaWrapper,
 	Wrapper,
 	Text,
-	Title
+	Title, FooterModalButton
 } from './App.styles.js';
 import SquareLoader from 'react-spinners/SquareLoader';
 import PropTypes from 'prop-types';
 import {AuthModal} from './components/AuthModal/AuthModal.jsx';
 import {RatingTable} from './components/RatingTable/RatingTable.jsx';
-import {FooterWrapper} from './components/Footer/Footer.styles.js';
+import {FooterAppWrapper, FooterWrapper} from './components/Footer/Footer.styles.js';
 import {TextButton} from './components/ControlPanel/ControlPanel.styles.js';
 import {auth} from './firebase.js';
 import firebase from 'firebase/compat/app';
@@ -252,20 +252,6 @@ const App = () => {
 						</Text>}
 				</TextAreaWrapper>
 				{showModal ? (
-					<FooterWrapper style={{bottom: '3.5em'}}>
-						<TextButton onClick={() => setShowModal(false)}>Home</TextButton>
-					</FooterWrapper>
-				) : !isAuthenticated && (
-					<FooterWrapper style={{bottom: '3.5em'}}>
-						<TextButton onClick={() => setShowModal(true)}>SignUp | SignIn</TextButton>
-					</FooterWrapper>
-				)}
-				{isAuthenticated && (
-					<FooterWrapper style={{bottom: '3.5em'}}>
-						<TextButton onClick={signOut}>Sign Out</TextButton>
-					</FooterWrapper>
-				)}
-				{showModal ? (
 					<AuthModal updateDisplayName={updateDisplayName} bestAuthRecord={bestAuthRecord} updateBestRecord={updateBestRecord} displayName={displayName} setDisplayName={setDisplayName} setIsAuthenticated={setIsAuthenticated} setShowModal={setShowModal} isAuthenticated={isAuthenticated}/>
 				) : (
 					<>
@@ -274,7 +260,23 @@ const App = () => {
 						<RatingTable bestAuthRecord={bestAuthRecord}/>
 					</>
 				)}
-				<Footer/>
+				<FooterAppWrapper>
+					{showModal ? (
+						<FooterModalButton>
+							<TextButton className='footerTextButton' onClick={() => setShowModal(false)}>Home</TextButton>
+						</FooterModalButton>
+					) : !isAuthenticated && (
+						<FooterModalButton>
+							<TextButton className='footerTextButton' onClick={() => setShowModal(true)}>SignUp | SignIn</TextButton>
+						</FooterModalButton>
+					)}
+					{isAuthenticated && (
+						<FooterModalButton>
+							<TextButton className='footerTextButton' onClick={signOut}>Sign Out</TextButton>
+						</FooterModalButton>
+					)}
+					<Footer/>
+				</FooterAppWrapper>
 			</Wrapper>
 		</>
 	);

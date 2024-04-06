@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {InfoWrapper} from './InfoPanel.styles.js';
+import {InfoPanelData, InfoWrapper} from './InfoPanel.styles.js';
 import PropTypes from 'prop-types';
 
 export const InfoPanel = ({startCounting, correctWordsArray, setUserInput, setIsInputActive, timeElapsed, setTimeElapsed, setStartCounting, calculateSpeed, updateBestRecord}) => {
@@ -32,9 +32,9 @@ export const InfoPanel = ({startCounting, correctWordsArray, setUserInput, setIs
 
 	return (
 		<InfoWrapper>
-			<p className={'infoPanelData'}>(Timer: {timeElapsed}</p>
-			<p className={'infoPanelData'}>Speed: {calculateSpeed()} WPM</p>
-			<p className={'infoPanelData'}>Accuracy: {calculateAccuracy()}%)</p>
+			<InfoPanelData className={'infoPanelData'}>(Timer:{timeElapsed}</InfoPanelData>
+			<InfoPanelData className={'infoPanelData'}>Speed:{calculateSpeed()} WPM</InfoPanelData>
+			<InfoPanelData className={'infoPanelData'}>Accuracy:{calculateAccuracy()}%)</InfoPanelData>
 		</InfoWrapper>
 	);
 }

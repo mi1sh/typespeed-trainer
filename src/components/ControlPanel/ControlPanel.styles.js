@@ -6,12 +6,21 @@ export const ButtonWrapper = styled.div`
 	justify-content: center;
 `;
 
+export const BestRecord = styled.p`
+	@media screen and (max-width: 430px) {
+		font-size: 0.75em;
+	}
+	color: #377c6d; 
+	float: right; 
+	padding-right: 3em; 
+	font-size: 1em
+`
+
 export const ControlPanelWrapper = styled.div`
 	@media screen and (max-width: 430px) {
 		font-size: 0.9em;
 	}
 	font-family: "hack", sans-serif;
-	margin: 0.4em 0em 2em 0em;
 	display: flex;
 	flex-flow: row wrap;
 	width: 100%;
@@ -26,8 +35,8 @@ export const ControlPanelWrapper = styled.div`
 
 export const TextButton = styled.button`
 	@media screen and (max-width: 430px) {
-		padding: 0.6em;
 		font-size: 0.8em;
+		margin: 0.2em;
 	}
 	font-family: "hack", sans-serif;
 	font-size: 1em;

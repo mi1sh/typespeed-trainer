@@ -10,16 +10,9 @@ export const AuthModal = ({setShowModal, setIsAuthenticated, updateBestRecord, b
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [isRegistering, setIsRegistering] = useState(false);
-	const [errorMessage, setErrorMessage] = useState('');
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		if (!isValidEmail(email)) {
-			setErrorMessage('Please enter a valid email address.');
-			return;
-		} else {
-			setErrorMessage('');
-		}
 		if (isRegistering) {
 			registerUser(email, password, displayName);
 		} else {
@@ -128,17 +121,11 @@ export const AuthModal = ({setShowModal, setIsAuthenticated, updateBestRecord, b
 		});
 	};
 
-	const isValidEmail = (email) => {
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		return emailRegex.test(email);
-	};
-
 	return (
 		<>
-			{errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
 			<Form onSubmit={handleSubmit}>
 				{isRegistering && (
-					<TypeInput maxLength="35" minLength="2" type="text" placeholder="Enter your username" value={displayName} onChange={(event) => setDisplayName(event.target.value)} autoComplete="new-password"/>
+					<TypeInput style={{marginTop: '-2em'}} maxLength="35" minLength="2" type="text" placeholder="Enter your username" value={displayName} onChange={(event) => setDisplayName(event.target.value)} autoComplete="new-password"/>
 				)}
 				<TypeInput style={{marginTop: '0.8em'}} maxLength="35" minLength="10" type="email" placeholder="Enter your email" value={email} onChange={(event) => setEmail(event.target.value)}/>
 				<TypeInput style={{marginTop: '0.8em'}} maxLength="20" minLength="6" type="password" placeholder="Enter your password" value={password} onChange={(event) => setPassword(event.target.value)}/>

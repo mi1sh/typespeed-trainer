@@ -1,18 +1,37 @@
+html {
+  overflow: hidden;
+}
+
+@media screen and (max-width: 430px) {
+  html {
+    overflow: scroll;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(35, 83, 71);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #6f8d86;
+}
+
 :root {
   font-family: "Press Start 2P", system-ui;
   line-height: 1.5;
-
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   user-select: none;
-
   text-rendering: optimizeLegibility;
-  overflow: hidden;
-
 }
 
 html, body {
-
+  height: 100%;
 }
 
 #root {
@@ -23,16 +42,9 @@ html, body {
 body {
   margin: 0;
   display: flex;
-  min-width: 100%;
-  min-height: 100%;
 }
 
 @media screen and (max-width: 430px) {
-
-  .footerBtn {
-    font-size: 1.3em!important;
-  }
-
   .loader {
     margin-top: 3.2em !important;
   }
@@ -52,13 +64,6 @@ input[type=checkbox] {
 
 input[type=checkbox] {
   accent-color: #377c6d;
-}
-
-.infoPanelData {
-  display: inline-block;
-  margin: 0vw 1vw 0vw 1vw;
-  font-family: "Press Start 2P", system-ui;
-  font-size: 1em;
 }
 
 .correct {
@@ -83,24 +88,10 @@ input[type=checkbox] {
   position: absolute;
   left: 0;
   z-index: -1;
-  bottom: -1px;
   width: 90%;
   height: 2px;
   background-color: #377c6d;
   display: block;
-}
-
-.footerBtn {
-  font-size: 1.2em;
-  color: #d7d7d7;
-  max-width: 300px;
-  margin: 10px 40px 5px 40px;
-  padding: 10px 15px 10px 15px;
-  transition: transform .1s ease-in-out;
-
-  &:hover {
-    transform: scale(1.3)
-  }
 }
 
 a {
@@ -110,10 +101,6 @@ a:hover {
   color: #235347;
 }
 
-p {
-  margin-top: auto;
-  margin-bottom: auto;
-}
 
 .toastSuccess {
   --toastify-color-success: rgb(35, 83, 71);
