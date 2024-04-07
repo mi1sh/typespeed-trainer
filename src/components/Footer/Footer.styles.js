@@ -9,7 +9,7 @@ export const FooterWrapper = styled.div`
 `
 
 export const FooterAppWrapper = styled.div`
-	@media screen and (max-width: 430px) {
+	@media screen and (max-width: 650px) {
 		background-color: rgb(39, 44, 43); 
 		bottom: 0;
 	}

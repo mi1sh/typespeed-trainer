@@ -231,7 +231,7 @@ const App = () => {
 					calculateSpeed={calculateSpeed}
 					updateBestRecord={updateBestRecord}
 				/>
-				<TextAreaWrapper>
+				<TextAreaWrapper selectedWordCount={selectedWordCount}>
 					{isLoading ? <SquareLoader
 							className={'loader'}
 							color="#377c6d"

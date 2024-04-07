@@ -44,14 +44,15 @@ body {
   display: flex;
 }
 
-@media screen and (max-width: 430px) {
-  .loader {
-    margin-top: 3.2em !important;
-  }
-}
-
 .loader {
-  margin-top: 2.2em;
+  @media screen and (max-width: 430px) {
+    left: 45%;
+  }
+  position: absolute;
+  top: 50%;
+  bottom: 50%;
+  left: 47%;
+  margin: auto 0;
 }
 
 input{

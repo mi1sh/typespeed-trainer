@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
 `;
 
 export const FooterModalButton = styled.div`
-	@media screen and (max-width: 430px) {
+	@media screen and (max-width: 650px) {
 		.footerTextButton {
 			color: #d7d7d7;
 		} :active {
@@ -45,20 +45,40 @@ export const Title = styled.h1.attrs(props => ({
   	`}
 `
 
-export const TextAreaWrapper = styled.div`
+export const TextAreaWrapper = styled.div.attrs(props => ({
+	selectedWordCount: props.selectedWordCount,
+}))`
 	@media screen and (max-width: 430px) {
 		min-width: 94vw;
 		min-height: 13vh;
 		margin: 5px;
 		padding: 3px;
+		${props => props.selectedWordCount === 100 && `
+    		min-height: 31vh;
+  	`}
+		${props => props.selectedWordCount === 150 && `
+    		min-height: 31vh;
+  	`}
 	}
+	transition: 0.3s ease-in-out;
+	overflow: hidden;
+	position: relative;
+	background-color: rgb(39, 44, 43) !important;
+	border: 4px solid rgb(35, 83, 71);
+	border-radius: 10px;
 	width: auto;
 	height: auto;
 	min-width: 42vw;
 	max-width: 800px;
-	min-height: 13vh;
+	min-height: 16vh;
 	margin: auto;
 	word-wrap: break-word;
+	${props => props.selectedWordCount === 100 && `
+    		min-height: 31vh;
+  	`}
+	${props => props.selectedWordCount === 150 && `
+    		min-height: 31vh;
+  	`}
 `;
 
 export const Text = styled.p.attrs(props => ({
@@ -67,16 +87,17 @@ export const Text = styled.p.attrs(props => ({
 	@media screen and (max-width: 430px) {
 		font-size: 0.7em !important;
 		padding: 5px;
+		${props => props.selectedWordCount === 150 && `
+    		font-size:  85%;
+  	`}
 	}
-	background-color: rgb(39, 44, 43) !important;
-	border: 4px solid rgb(35, 83, 71);
-	border-radius: 10px;
+	transition: 0.3s ease-in-out;
 	padding: 10px;
 	overflow: hidden;
 	color: #6f8d86;
 	font-family: "hack", sans-serif;
 	min-width: 25vw;
-	margin: auto;
+	margin: auto 0;
 	max-width: 800px;
 	max-height: 80vh;
 	min-height: 8vh;
