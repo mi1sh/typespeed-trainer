@@ -1,6 +1,9 @@
 <div align="center">
 <h1><b>:keyboard: Typespeed - Test :keyboard:</b></h1>
-<h2>React + Vite</h2>
+<b>React + Vite</b>
+
+[![PLAY](https://img.shields.io/badge/CLICK%20TO%20PLAY-235347)](https://typespeed-test.vercel.app/)
+[![LICENSE](https://img.shields.io/github/license/mi1sh/typespeed-test?color=235347)](https://github.com/mi1sh/typespeed-test/blob/main/LICENSE)
 </div>
 
 ### A typing speed test app I wrote using React.js and wanted to show you :green_heart:
